@@ -3,5 +3,36 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
+    "ngx-date-bar-chart": {
+      "projectType": "library",
+      "root": "projects/ngx-date-bar-chart",
+      "sourceRoot": "projects/ngx-date-bar-chart/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/ngx-date-bar-chart/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ngx-date-bar-chart/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/ngx-date-bar-chart/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ngx-date-bar-chart/src/test.ts",
+            "tsConfig": "projects/ngx-date-bar-chart/tsconfig.spec.json",
+            "karmaConfig": "projects/ngx-date-bar-chart/karma.conf.js"
+          }
+        }
+      }
+    }
   }
 }
