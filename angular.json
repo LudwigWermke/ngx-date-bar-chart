@@ -7,7 +7,7 @@
       "projectType": "library",
       "root": "projects/ngx-date-bar-chart",
       "sourceRoot": "projects/ngx-date-bar-chart/src",
-      "prefix": "lib",
+      "prefix": "",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",

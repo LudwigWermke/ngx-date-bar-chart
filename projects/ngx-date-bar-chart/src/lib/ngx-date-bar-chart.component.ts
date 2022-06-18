@@ -1,14 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'lib-ngx-date-bar-chart',
-  template: `
-    <p>
-      ngx-date-bar-chart works!
-    </p>
-  `,
-  styles: [
-  ]
+  selector: 'ngx-date-bar-chart',
+  templateUrl: './ngx-date-bar-chart.component.html',
+  styleUrls: ['./ngx-date-bar-chart.component.css']
 })
 export class NgxDateBarChartComponent implements OnInit {
 
