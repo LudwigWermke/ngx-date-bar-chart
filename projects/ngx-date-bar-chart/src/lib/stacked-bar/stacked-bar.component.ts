@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'lib-stacked-bar',
+  selector: 'stacked-bar',
   templateUrl: './stacked-bar.component.html',
   styleUrls: ['./stacked-bar.component.css']
 })

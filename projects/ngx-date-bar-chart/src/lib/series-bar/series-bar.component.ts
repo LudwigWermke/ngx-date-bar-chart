@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'lib-series-bar',
+  selector: 'series-bar',
   templateUrl: './series-bar.component.html',
   styleUrls: ['./series-bar.component.css']
 })
