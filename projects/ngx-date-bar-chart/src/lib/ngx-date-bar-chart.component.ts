@@ -16,14 +16,35 @@ export class NgxDateBarChartComponent implements OnInit {
     this.yDomain = this.helperService.getYDomain(this.processedData);
   }
 
+  public transformXAxis = '';
+  public transformYAxis = '';
+
   public processedData: INgxDateValue[] = [];
 
   public xDomain: [Date, Date] = [new Date(), new Date()];
   public yDomain: [number, number] = [0, 100];
 
+
+  public fullWidth = 300;
+  public fullHeight = 200;
+  public chartHeight = 300;
+  public chartWidth = 200;
+
+  public margin = {top: 0, left: 20, right: 0, bottom: 30};
+
   constructor(private helperService: HelperService) { }
 
   ngOnInit(): void {
+    this.onResize();
   }
 
+  // mock method
+  private onResize() {
+    this.chartHeight = this.fullHeight - this.margin.top - this.margin.bottom;
+    this.chartWidth = this.fullWidth - this.margin.left - this.margin.right;
+
+    // translates axis to left and bottom
+    this.transformXAxis = `translate(${this.margin.left},${this.chartHeight + this.margin.top})`;
+    this.transformYAxis = `translate(${this.margin.left},${this.margin.top})`;
+  }
 }
