@@ -34,11 +34,15 @@ export class NgxDateBarChartComponent implements OnInit {
   public chartHeight = 800;
   public chartWidth = 400;
 
+  public barWidth = 5;
+
+  public spacingPercentage = 0.2;
+
   public internalId = `ngx-date-bar-chart${Math.round(
-    Math.random() * 1000000
+    Math.random() * 1_000_000
   )}`;
 
-  public margin = { top: 0, left: 30, right: 0, bottom: 20 };
+  public margin = { top: 0, left: 50, right: 0, bottom: 20 };
 
   constructor(
     private helperService: HelperService,
@@ -65,6 +69,14 @@ export class NgxDateBarChartComponent implements OnInit {
       this.chartHeight + this.margin.top
     })`;
     this.transformYAxis = `translate(${this.margin.left},${this.margin.top})`;
+
+    const daysDiff = this.helperService.daysDiff(this.xDomain);
+
+    this.barWidth = this.helperService.getBarWidth(
+      this.chartWidth,
+      this.spacingPercentage,
+      daysDiff
+    );
   }
 
   private initScales(): void {
@@ -104,7 +116,7 @@ export class NgxDateBarChartComponent implements OnInit {
   private formatDate(x: AxisDomain): string {
     const value = x.valueOf();
     const date = new Date(value);
-    return `${date.getMonth()}-${date.getDate()}-${date.getHours()}`;
+    return `${date.getMonth()}-${date.getDate()}`;
   }
 
   private selectChart() {

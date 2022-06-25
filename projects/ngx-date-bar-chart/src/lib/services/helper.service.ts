@@ -34,4 +34,18 @@ export class HelperService {
       1.2 * processedData[processedData.length - 1].value,
     ];
   }
+
+  public getBarWidth(
+    chartWidth: number,
+    spacingPercentage: number,
+    daysDiff: number
+  ): number {
+    return ((1 - spacingPercentage) * chartWidth) / daysDiff;
+  }
+
+  public daysDiff(xDomain: [Date, Date]): number {
+    const start = xDomain[0];
+    const end = xDomain[1];
+    return (end.getTime() - start.getTime()) / 24 / 3600 / 1000;
+  }
 }
