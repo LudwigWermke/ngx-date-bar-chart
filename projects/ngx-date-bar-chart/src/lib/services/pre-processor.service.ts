@@ -22,6 +22,14 @@ export class PreProcessorService {
       };
     });
 
-    return processedData;
+    processedData.sort((a, b) => a.date.getTime() - b.date.getTime());
+
+    // filter
+    return processedData.filter((d, index) => {
+      const firstIndex = data.findIndex(
+        (c) => c.date.getTime() === d.date.getTime()
+      );
+      return firstIndex === index;
+    });
   }
 }
