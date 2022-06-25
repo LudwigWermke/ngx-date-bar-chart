@@ -28,9 +28,10 @@ export class HelperService {
         'needs at least one value to properly set up chart.'
       );
     }
+
     return [
       processedData[0].value,
-      processedData[processedData.length - 1].value,
+      1.2 * processedData[processedData.length - 1].value,
     ];
   }
 }
