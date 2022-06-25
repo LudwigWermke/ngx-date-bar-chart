@@ -13,10 +13,13 @@ export class HelperService {
         'needs at least one value to properly set up chart.'
       );
     }
-    return [
-      processedData[0].date,
-      processedData[processedData.length - 1].date,
-    ];
+
+    const min = new Date(processedData[0].date);
+    min.setTime(min.getTime() - 12 * 3600 * 1000);
+
+    const max = new Date(processedData[processedData.length - 1].date);
+    max.setTime(max.getTime() + 12 * 3600 * 1000);
+    return [min, max];
   }
 
   public getYDomain(processedData: INgxDateValue[]): [number, number] {
