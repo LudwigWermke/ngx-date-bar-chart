@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import * as d3 from 'd3';
 
 @Component({
   selector: 'ngx-date-bar-chart',
@@ -10,6 +11,8 @@ export class NgxDateBarChartComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    console.log(d3.scaleLinear([0, 100]));
+
   }
 
 }
