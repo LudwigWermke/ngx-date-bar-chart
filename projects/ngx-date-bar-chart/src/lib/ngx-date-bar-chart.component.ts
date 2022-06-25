@@ -2,7 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import * as d3 from 'd3';
 import { INgxDateValue } from './interfaces/date-value.interface';
 import { HelperService } from './services/helper.service';
-import {AxisDomain} from 'd3';
+import { AxisDomain } from 'd3';
+import { PreProcessorService } from './services/pre-processor.service';
 
 @Component({
   selector: 'ngx-date-bar-chart',
@@ -11,8 +12,7 @@ import {AxisDomain} from 'd3';
 })
 export class NgxDateBarChartComponent implements OnInit {
   @Input() set data(data: INgxDateValue[]) {
-    // TODO: preprocess etc, abort if no data
-    this.processedData = data;
+    this.processedData = this.preProcessorService.preProcess(data);
     this.xDomain = this.helperService.getXDomain(this.processedData);
     this.yDomain = this.helperService.getYDomain(this.processedData);
     setTimeout(() => this.redraw());
@@ -34,12 +34,16 @@ export class NgxDateBarChartComponent implements OnInit {
   public chartHeight = 800;
   public chartWidth = 400;
 
-  public internalId = `ngx-date-bar-chart${Math.round(Math.random() * 1000000)}`;
+  public internalId = `ngx-date-bar-chart${Math.round(
+    Math.random() * 1000000
+  )}`;
 
   public margin = { top: 0, left: 30, right: 0, bottom: 20 };
 
-  constructor(private helperService: HelperService) {
-  }
+  constructor(
+    private helperService: HelperService,
+    private preProcessorService: PreProcessorService
+  ) {}
 
   ngOnInit(): void {
     this.calculateDimension();
@@ -100,7 +104,7 @@ export class NgxDateBarChartComponent implements OnInit {
   private formatDate(x: AxisDomain): string {
     const value = x.valueOf();
     const date = new Date(value);
-    return `${date.getMonth()}-${date.getDate()}`;
+    return `${date.getMonth()}-${date.getDate()}-${date.getHours()}`;
   }
 
   private selectChart() {
