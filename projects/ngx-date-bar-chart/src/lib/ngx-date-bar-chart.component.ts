@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import * as d3 from 'd3';
+import {INgxDateValue} from './interfaces/date-value.interface';
 
 @Component({
   selector: 'ngx-date-bar-chart',
@@ -7,6 +8,12 @@ import * as d3 from 'd3';
   styleUrls: ['./ngx-date-bar-chart.component.css']
 })
 export class NgxDateBarChartComponent implements OnInit {
+  @Input() set data(data: INgxDateValue[]) {
+    // TODO: preprocess etc
+    this.processedData = data;
+  }
+
+  public processedData: INgxDateValue[] = [];
 
   constructor() { }
 
