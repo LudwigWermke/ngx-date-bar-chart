@@ -25,10 +25,10 @@ export class NgxDateBarChartComponent implements OnInit {
   public yDomain: [number, number] = [0, 100];
 
 
-  public fullWidth = 400;
-  public fullHeight = 200;
-  public chartHeight = 400;
-  public chartWidth = 200;
+  public fullWidth = 800;
+  public fullHeight = 400;
+  public chartHeight = 800;
+  public chartWidth = 400;
 
   public margin = {top: 0, left: 20, right: 0, bottom: 30};
 
