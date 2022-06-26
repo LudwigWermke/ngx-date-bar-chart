@@ -4,18 +4,20 @@
     <g *ngIf="processedData && !!yScale && !!xScale">
       <g
         [attr.transform]="transformYAxis"
-        *ngFor="let entry of processedData"
+        *ngFor="let entry of processedData; index as i"
         ngx-date-bar-chart-single-bar
         [entry]="entry"
         [xScale]="xScale"
         [yScale]="yScale"
         [yDomain]="yDomain"
         [barWidth]="barWidth"
+        [index]="i"
+        [rounded]="rounded"
+        [barRadiusFunction]="barRadiusFunction"
       ></g>
     </g>
 
     <g class="axis x-axis" [attr.transform]="transformXAxis"></g>
     <g class="axis y-axis" [attr.transform]="transformYAxis"></g>
-
   </svg>
 </div>

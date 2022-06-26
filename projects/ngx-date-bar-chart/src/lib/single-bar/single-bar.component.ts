@@ -12,17 +12,17 @@ export class SingleBarComponent implements OnInit {
   @Input() xScale: any;
   @Input() yScale: any;
   @Input() yDomain = [0, 100];
+  @Input() rounded = true;
+  @Input() index = 0;
+  @Input() barRadiusFunction: ((barWidth: number) => number) | undefined;
 
-  private id = '';
-  constructor() {
-    this.id = (Math.random() + 1).toString(36).substring(2);
-  }
+  private internalId = `ngx-date-bar-chart-bar-${Math.round(
+    Math.random() * 1_000_000
+  )}-${this.index}`;
+
+  constructor() {}
 
   ngOnInit(): void {}
-
-  public get radius(): number {
-    return Math.min(this.barWidth > 1 ? this.barWidth / 3 : 1, 40);
-  }
 
   public get x(): number {
     if (!this.xScale || !this.entry?.date) {
@@ -53,5 +53,20 @@ export class SingleBarComponent implements OnInit {
 
   public get y(): number {
     return this.getY(this.entry?.value);
+  }
+
+  public getClipId(): string {
+    return `${this.internalId}-bar-clip-path`;
+  }
+
+  public getClipUrl(): string {
+    return `url(#${this.getClipId()})`;
+  }
+
+  public get radius(): number {
+    if (this.barRadiusFunction) {
+      return this.barRadiusFunction(this.barWidth);
+    }
+    return Math.min(this.barWidth > 1 ? this.barWidth / 3 : 1, 40);
   }
 }

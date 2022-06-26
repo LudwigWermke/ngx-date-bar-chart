@@ -21,6 +21,8 @@ export class NgxDateBarChartComponent implements OnInit {
   @Input() formatDateFunction: ((date: Date) => string) | undefined;
   @Input() fixedXTicks: Date[] | undefined;
   @Input() fixedYTicks: number[] | undefined;
+  @Input() rounded = true;
+  @Input() barRadiusFunction: ((barWidth: number) => number) | undefined;
 
   public transformXAxis = '';
   public transformYAxis = '';
@@ -107,7 +109,9 @@ export class NgxDateBarChartComponent implements OnInit {
       .tickFormat((x: AxisDomain) => this.formatDate(x));
 
     if (this.fixedXTicks) {
-      xAxis = xAxis.tickValues(this.preProcessorService.startOfDay(this.fixedXTicks));
+      xAxis = xAxis.tickValues(
+        this.preProcessorService.startOfDay(this.fixedXTicks)
+      );
     } else {
       xAxis = xAxis.ticks(d3.timeDay);
     }
@@ -133,8 +137,8 @@ export class NgxDateBarChartComponent implements OnInit {
       return this.formatDateFunction(date);
     }
 
-    const options: any = {month: '2-digit', day: '2-digit'};
-    return date.toLocaleDateString("en-US", options);
+    const options: any = { month: '2-digit', day: '2-digit' };
+    return date.toLocaleDateString('en-US', options);
   }
 
   private selectChart() {
