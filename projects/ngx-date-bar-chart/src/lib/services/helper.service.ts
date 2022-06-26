@@ -13,10 +13,13 @@ export class HelperService {
         'needs at least one value to properly set up chart.'
       );
     }
-    return [
-      processedData[0].date,
-      processedData[processedData.length - 1].date,
-    ];
+
+    const min = new Date(processedData[0].date);
+    min.setTime(min.getTime() - 12 * 3600 * 1000);
+
+    const max = new Date(processedData[processedData.length - 1].date);
+    max.setTime(max.getTime() + 12 * 3600 * 1000);
+    return [min, max];
   }
 
   public getYDomain(processedData: INgxDateValue[]): [number, number] {
@@ -25,9 +28,24 @@ export class HelperService {
         'needs at least one value to properly set up chart.'
       );
     }
+
     return [
       processedData[0].value,
-      processedData[processedData.length - 1].value,
+      1.2 * processedData[processedData.length - 1].value,
     ];
+  }
+
+  public getBarWidth(
+    chartWidth: number,
+    spacingPercentage: number,
+    daysDiff: number
+  ): number {
+    return ((1 - spacingPercentage) * chartWidth) / daysDiff;
+  }
+
+  public daysDiff(xDomain: [Date, Date]): number {
+    const start = xDomain[0];
+    const end = xDomain[1];
+    return (end.getTime() - start.getTime()) / 24 / 3600 / 1000;
   }
 }

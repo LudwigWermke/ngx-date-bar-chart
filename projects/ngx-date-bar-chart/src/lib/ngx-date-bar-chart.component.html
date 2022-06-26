@@ -2,5 +2,19 @@
   <svg>
     <g class="axis x-axis" [attr.transform]="transformXAxis"></g>
     <g class="axis y-axis" [attr.transform]="transformYAxis"></g>
+
+    <!-- single bars -->
+    <g *ngIf="processedData && !!yScale && !!xScale">
+      <g
+        [attr.transform]="transformYAxis"
+        *ngFor="let entry of processedData"
+        ngx-date-bar-chart-single-bar
+        [entry]="entry"
+        [xScale]="xScale"
+        [yScale]="yScale"
+        [yDomain]="yDomain"
+        [barWidth]="barWidth"
+      ></g>
+    </g>
   </svg>
 </div>
