@@ -1,4 +1,4 @@
-<div [id]="internalId">
+<div [id]="internalId" class="wrapper">
   <svg>
     <!-- single bars -->
     <g *ngIf="processedData && !!yScale && !!xScale">
@@ -16,6 +16,5 @@
 
     <g class="axis x-axis" [attr.transform]="transformXAxis"></g>
     <g class="axis y-axis" [attr.transform]="transformYAxis"></g>
-
   </svg>
 </div>

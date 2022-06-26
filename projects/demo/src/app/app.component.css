@@ -1,4 +1,7 @@
 .demo-chart {
     display: block;
     margin: auto;
+    width: 50vw;
+    height: 30vh;
+
 }
