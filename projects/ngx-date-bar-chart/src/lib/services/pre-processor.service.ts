@@ -32,4 +32,12 @@ export class PreProcessorService {
       return firstIndex === index;
     });
   }
+
+  public startOfDay(fixedXTicks: Date[]): Date[] {
+    return fixedXTicks.map((date) => {
+      const newDate = new Date(date);
+      newDate.setHours(0, 0, 0, 0);
+      return newDate;
+    });
+  }
 }
