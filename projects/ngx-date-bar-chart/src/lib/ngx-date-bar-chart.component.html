@@ -1,4 +1,4 @@
-<div [id]="internalId" class="wrapper">
+<div [id]="internalId" class="ngx-date-bar-chart" (window:resize)="resize()">
   <svg>
     <!-- single bars -->
     <g *ngIf="processedData && !!yScale && !!xScale">
