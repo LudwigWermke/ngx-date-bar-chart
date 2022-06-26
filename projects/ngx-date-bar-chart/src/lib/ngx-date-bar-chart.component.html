@@ -1,8 +1,5 @@
 <div [id]="internalId">
   <svg>
-    <g class="axis x-axis" [attr.transform]="transformXAxis"></g>
-    <g class="axis y-axis" [attr.transform]="transformYAxis"></g>
-
     <!-- single bars -->
     <g *ngIf="processedData && !!yScale && !!xScale">
       <g
@@ -16,5 +13,9 @@
         [barWidth]="barWidth"
       ></g>
     </g>
+
+    <g class="axis x-axis" [attr.transform]="transformXAxis"></g>
+    <g class="axis y-axis" [attr.transform]="transformYAxis"></g>
+
   </svg>
 </div>

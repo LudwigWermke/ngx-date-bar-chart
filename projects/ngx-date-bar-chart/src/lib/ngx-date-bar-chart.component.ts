@@ -42,7 +42,7 @@ export class NgxDateBarChartComponent implements OnInit {
     Math.random() * 1_000_000
   )}`;
 
-  public margin = { top: 0, left: 50, right: 0, bottom: 20 };
+  public margin = { top: 10, left: 50, right: 0, bottom: 20 };
 
   constructor(
     private helperService: HelperService,
