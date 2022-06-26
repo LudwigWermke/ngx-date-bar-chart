@@ -67,6 +67,6 @@ export class SingleBarComponent implements OnInit {
     if (this.barRadiusFunction) {
       return this.barRadiusFunction(this.barWidth);
     }
-    return Math.min(this.barWidth > 1 ? this.barWidth / 3 : 1, 40);
+    return Math.min(this.barWidth > 1 ? this.barWidth / 3 : 1, 20);
   }
 }
