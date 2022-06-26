@@ -15,7 +15,7 @@ export class NgxDateBarChartComponent implements OnInit {
     this.processedData = this.preProcessorService.preProcess(data);
     this.xDomain = this.helperService.getXDomain(this.processedData);
     this.yDomain = this.helperService.getYDomain(this.processedData);
-    setTimeout(() => this.redraw());
+    setTimeout(() => this.resize());
   }
 
   @Input() formatDateFunction: ((date: Date) => string) | undefined;
@@ -54,13 +54,7 @@ export class NgxDateBarChartComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.calculateDimension();
-  }
-
-  private redraw(): void {
-    this.calculateDimension();
-    this.initScales();
-    this.drawAxis();
+    setTimeout(() => this.resize());
   }
 
   // mock method
@@ -107,7 +101,9 @@ export class NgxDateBarChartComponent implements OnInit {
       .tickFormat((x: AxisDomain) => this.formatDate(x));
 
     if (this.fixedXTicks) {
-      xAxis = xAxis.tickValues(this.preProcessorService.startOfDay(this.fixedXTicks));
+      xAxis = xAxis.tickValues(
+        this.preProcessorService.startOfDay(this.fixedXTicks)
+      );
     } else {
       xAxis = xAxis.ticks(d3.timeDay);
     }
@@ -133,11 +129,28 @@ export class NgxDateBarChartComponent implements OnInit {
       return this.formatDateFunction(date);
     }
 
-    const options: any = {month: '2-digit', day: '2-digit'};
-    return date.toLocaleDateString("en-US", options);
+    const options: any = { month: '2-digit', day: '2-digit' };
+    return date.toLocaleDateString('en-US', options);
   }
 
   private selectChart() {
     return d3.select(`#${this.internalId}`).select('svg');
+  }
+
+  public resize(): void {
+    const node = this.selectChart().node();
+    if (!node || !('getBoundingClientRect' in node)) {
+      throw new Error(
+        'cannot calculate width and height correctly, this should not happen. Please contact library maintainer.'
+      );
+    }
+
+    const rect = node.getBoundingClientRect();
+    this.fullWidth = rect.width;
+    this.fullHeight = rect.height;
+
+    this.calculateDimension();
+    this.initScales();
+    this.drawAxis();
   }
 }
