@@ -121,7 +121,9 @@ export class NgxDateBarChartComponent implements OnInit {
     if (this.formatDateFunction) {
       return this.formatDateFunction(date);
     }
-    return `${date.getMonth()}-${date.getDate()}`;
+
+    const options: any = {month: '2-digit', day: '2-digit'};
+    return date.toLocaleDateString("en-US", options);
   }
 
   private selectChart() {
