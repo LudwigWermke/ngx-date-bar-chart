@@ -18,6 +18,8 @@ export class NgxDateBarChartComponent implements OnInit {
     setTimeout(() => this.redraw());
   }
 
+  @Input() formatDateFunction: ((date: Date) => string) | undefined;
+
   public transformXAxis = '';
   public transformYAxis = '';
 
@@ -116,6 +118,9 @@ export class NgxDateBarChartComponent implements OnInit {
   private formatDate(x: AxisDomain): string {
     const value = x.valueOf();
     const date = new Date(value);
+    if (this.formatDateFunction) {
+      return this.formatDateFunction(date);
+    }
     return `${date.getMonth()}-${date.getDate()}`;
   }
 

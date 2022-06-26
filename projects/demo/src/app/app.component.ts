@@ -11,7 +11,7 @@ export class AppComponent {
 
   constructor() {
     const data: INgxDateValue[] = [];
-    for (let i = 0; i < 30; ++i) {
+    for (let i = 0; i < 5; ++i) {
       const date = new Date();
       date.setDate(new Date().getDate() + i);
 
@@ -23,4 +23,9 @@ export class AppComponent {
 
     this.data = data;
   }
+
+  // Todo write example in doc
+  /*public formatDate(date: Date): string {
+    return new Date(date).getDay().toString();
+  }*/
 }
