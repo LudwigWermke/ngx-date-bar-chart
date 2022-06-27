@@ -21,6 +21,8 @@ export class NgxDateBarChartComponent implements OnInit {
   @Input() formatDateFunction: ((date: Date) => string) | undefined;
   @Input() fixedXTicks: Date[] | undefined;
   @Input() fixedYTicks: number[] | undefined;
+  @Input() rounded = true;
+  @Input() barRadiusFunction: ((barWidth: number) => number) | undefined;
 
   public transformXAxis = '';
   public transformYAxis = '';

@@ -1,4 +1,4 @@
-<svg:g>
+<svg:g *ngIf="!rounded; else roundedBar">
   <rect
     [attr.x]="x"
     [attr.y]="y"
@@ -7,3 +7,29 @@
     [attr.fill]="'#6bc5c4'"
   ></rect>
 </svg:g>
+
+<ng-template #roundedBar>
+  <svg:clipPath [id]="getClipId()">
+    <svg:rect
+      [attr.x]="x"
+      [attr.y]="y"
+      [attr.height]="2 * (height + radius)"
+      [attr.width]="width"
+      [attr.rx]="radius"
+      [attr.ry]="radius"
+    ></svg:rect>
+  </svg:clipPath>
+
+  <!-- just drop the to be clipped inside a g, add the clip url, and we are good to go -->
+  <svg:g [attr.clip-path]="getClipUrl()">
+    <svg:g>
+      <svg:rect
+        [attr.x]="x"
+        [attr.y]="y"
+        [attr.height]="height"
+        [attr.width]="width"
+        [attr.fill]="'#6bc5c4'"
+      ></svg:rect>
+    </svg:g>
+  </svg:g>
+</ng-template>
