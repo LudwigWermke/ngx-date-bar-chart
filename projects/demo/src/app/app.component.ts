@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, QueryList, ViewChildren } from '@angular/core';
 import { INgxDateValue } from 'projects/ngx-date-bar-chart/src/lib/interfaces/date-value.interface';
+import { NgxDateBarChartComponent } from '../../../ngx-date-bar-chart/src/lib/ngx-date-bar-chart.component';
 
 @Component({
   selector: 'app-root',
@@ -7,11 +8,15 @@ import { INgxDateValue } from 'projects/ngx-date-bar-chart/src/lib/interfaces/da
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
+  // // TODO: api ref
+  // @ViewChildren(NgxDateBarChartComponent)
+  // children!: QueryList<NgxDateBarChartComponent>;
+
   public data: INgxDateValue[] = [];
 
   constructor() {
     const data: INgxDateValue[] = [];
-    for (let i = 0; i < 5; ++i) {
+    for (let i = 0; i < 30; ++i) {
       const date = new Date();
       date.setDate(new Date().getDate() + i);
 
@@ -22,6 +27,11 @@ export class AppComponent {
     }
 
     this.data = data;
+
+    // TODO: include in docs
+    // setTimeout(() => {
+    //   this.children.forEach((c) => c.resize());
+    // }, 5000);
   }
 
   // Todo write example in doc
