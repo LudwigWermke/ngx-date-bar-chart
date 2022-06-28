@@ -15,7 +15,14 @@ export class SingleBarComponent implements OnInit {
   @Input() rounded = true;
   @Input() index = 0;
   @Input() barRadiusFunction: ((barWidth: number) => number) | undefined;
-  @Input() color: string = 'black';
+  @Input() set colors(colors: string[]) {
+    if (!colors || colors?.length === 0) {
+      return;
+    }
+    this.color = colors[this.index % colors.length];
+  }
+
+  public color = 'black';
 
   private internalId = `ngx-date-bar-chart-bar-${Math.round(
     Math.random() * 1_000_000
