@@ -104,10 +104,17 @@ export class NgxDateBarChartComponent implements OnInit {
 
     if (this.fixedXTicks) {
       xAxis = xAxis.tickValues(
-        this.preProcessorService.startOfDay(this.fixedXTicks)
+        this.fixedXTicks.map((d) => this.preProcessorService.toStartOfDay(d))
       );
     } else {
       xAxis = xAxis.ticks(d3.timeDay);
+      xAxis = xAxis.tickValues(
+        this.helperService.createTicksBasedOnWidth(
+          this.chartWidth,
+          this.xDomain,
+          60
+        )
+      );
     }
 
     const xAxisElement: any = this.selectChart().selectAll('g.x-axis');

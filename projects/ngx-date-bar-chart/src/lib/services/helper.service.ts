@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { INgxDateValue } from '../interfaces/date-value.interface';
+import { PreProcessorService } from './pre-processor.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HelperService {
-  constructor() {}
+  constructor(private preProcessorService: PreProcessorService) {}
 
   public getXDomain(processedData: INgxDateValue[]): [Date, Date] {
     if (!processedData?.length) {
@@ -47,5 +48,26 @@ export class HelperService {
     const start = xDomain[0];
     const end = xDomain[1];
     return (end.getTime() - start.getTime()) / 24 / 3600 / 1000;
+  }
+
+  public createTicksBasedOnWidth(
+    width: number,
+    xDomain: [Date, Date],
+    minSpacePerXTick: number
+  ): Date[] {
+    const daysDiff = this.daysDiff(xDomain);
+    const calculatedStepSize = Math.ceil(
+      1 / (width / daysDiff / minSpacePerXTick)
+    );
+    const stepSize = Math.max(calculatedStepSize, 1);
+
+    const dates: Date[] = [];
+
+    for (let i = 1; i <= daysDiff; i += stepSize) {
+      const start = this.preProcessorService.toStartOfDay(xDomain[0]);
+      start.setDate(start.getDate() + i);
+      dates.push(start);
+    }
+    return dates;
   }
 }
