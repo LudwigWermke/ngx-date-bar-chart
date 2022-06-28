@@ -24,7 +24,19 @@ export class NgxDateBarChartComponent implements OnInit {
   @Input() rounded = true;
   @Input() barRadiusFunction: ((barWidth: number) => number) | undefined;
   @Input() colors: string[] = ['#6bc5c4'];
-  @Input() padding = { top: 10, left: 50, right: 0, bottom: 20 };
+  @Input() set xAxisHeight(height: number) {
+    if (height < 0 || height >= this.fullHeight) {
+      return;
+    }
+    this.padding.bottom = height;
+  }
+
+  @Input() set yAxisWidth(width: number) {
+    if (width < 0 || width >= this.fullHeight) {
+      return;
+    }
+    this.padding.left = width;
+  }
 
   public transformXAxis = '';
   public transformYAxis = '';
@@ -49,6 +61,8 @@ export class NgxDateBarChartComponent implements OnInit {
   public internalId = `ngx-date-bar-chart${Math.round(
     Math.random() * 1_000_000
   )}`;
+
+  private padding = { top: 10, left: 50, right: 0, bottom: 20 };
 
   constructor(
     private helperService: HelperService,
