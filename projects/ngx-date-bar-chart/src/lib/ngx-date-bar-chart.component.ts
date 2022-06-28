@@ -24,6 +24,7 @@ export class NgxDateBarChartComponent implements OnInit {
   @Input() rounded = true;
   @Input() barRadiusFunction: ((barWidth: number) => number) | undefined;
   @Input() colors: string[] = ['#6bc5c4'];
+  @Input() padding = { top: 10, left: 50, right: 0, bottom: 20 };
 
   public transformXAxis = '';
   public transformYAxis = '';
@@ -49,8 +50,6 @@ export class NgxDateBarChartComponent implements OnInit {
     Math.random() * 1_000_000
   )}`;
 
-  public margin = { top: 10, left: 50, right: 0, bottom: 20 };
-
   constructor(
     private helperService: HelperService,
     private preProcessorService: PreProcessorService
@@ -62,14 +61,14 @@ export class NgxDateBarChartComponent implements OnInit {
 
   // mock method
   private calculateDimension() {
-    this.chartHeight = this.fullHeight - this.margin.top - this.margin.bottom;
-    this.chartWidth = this.fullWidth - this.margin.left - this.margin.right;
+    this.chartHeight = this.fullHeight - this.padding.top - this.padding.bottom;
+    this.chartWidth = this.fullWidth - this.padding.left - this.padding.right;
 
     // translates axis to left and bottom
-    this.transformXAxis = `translate(${this.margin.left},${
-      this.chartHeight + this.margin.top
+    this.transformXAxis = `translate(${this.padding.left},${
+      this.chartHeight + this.padding.top
     })`;
-    this.transformYAxis = `translate(${this.margin.left},${this.margin.top})`;
+    this.transformYAxis = `translate(${this.padding.left},${this.padding.top})`;
 
     const daysDiff = this.helperService.daysDiff(this.xDomain);
 
