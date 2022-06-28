@@ -23,6 +23,7 @@ export class NgxDateBarChartComponent implements OnInit {
   @Input() fixedYTicks: number[] | undefined;
   @Input() rounded = true;
   @Input() barRadiusFunction: ((barWidth: number) => number) | undefined;
+  @Input() minSpacePerXTick = 60;
 
   public transformXAxis = '';
   public transformYAxis = '';
@@ -112,7 +113,7 @@ export class NgxDateBarChartComponent implements OnInit {
         this.helperService.createTicksBasedOnWidth(
           this.chartWidth,
           this.xDomain,
-          60
+          this.minSpacePerXTick
         )
       );
     }
