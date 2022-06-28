@@ -23,6 +23,7 @@ export class NgxDateBarChartComponent implements OnInit {
   @Input() fixedYTicks: number[] | undefined;
   @Input() rounded = true;
   @Input() barRadiusFunction: ((barWidth: number) => number) | undefined;
+  @Input() colors: string[] = ['#6bc5c4'];
 
   public transformXAxis = '';
   public transformYAxis = '';
