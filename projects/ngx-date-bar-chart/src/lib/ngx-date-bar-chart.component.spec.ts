@@ -8,9 +8,8 @@ describe('NgxDateBarChartComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ NgxDateBarChartComponent ]
-    })
-    .compileComponents();
+      declarations: [NgxDateBarChartComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(NgxDateBarChartComponent);
     component = fixture.componentInstance;

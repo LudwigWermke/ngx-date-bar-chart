@@ -13,31 +13,24 @@ export class PreProcessorService {
         'ngx-date-bar-chart needs at least one entry as an input'
       );
     }
-    const processedData = data.map((entry) => {
-      const date = entry.date;
-      date.setHours(0, 0, 0, 0);
-      return {
-        date,
-        value: entry.value,
-      };
-    });
+    const processedData = data.map((entry) => ({
+      date: this.toStartOfDay(entry.date),
+      value: entry.value,
+    }));
 
     processedData.sort((a, b) => a.date.getTime() - b.date.getTime());
-
     // filter
     return processedData.filter((d, index) => {
-      const firstIndex = data.findIndex(
+      const firstIndex = processedData.findIndex(
         (c) => c.date.getTime() === d.date.getTime()
       );
       return firstIndex === index;
     });
   }
 
-  public startOfDay(fixedXTicks: Date[]): Date[] {
-    return fixedXTicks.map((date) => {
-      const newDate = new Date(date);
-      newDate.setHours(0, 0, 0, 0);
-      return newDate;
-    });
+  public toStartOfDay(date: Date): Date {
+    const newDate = new Date(date);
+    newDate.setHours(0, 0, 0, 0);
+    return newDate;
   }
 }

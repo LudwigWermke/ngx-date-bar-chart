@@ -24,6 +24,7 @@ export class NgxDateBarChartComponent implements OnInit {
   @Input() rounded = true;
   @Input() barRadiusFunction: ((barWidth: number) => number) | undefined;
   @Input() colors: string[] = ['#6bc5c4'];
+  @Input() minSpacePerXTick = 60;
   @Input() set xAxisHeight(height: number) {
     if (height < 0 || height >= this.fullHeight) {
       return;
@@ -37,6 +38,7 @@ export class NgxDateBarChartComponent implements OnInit {
     }
     this.padding.left = width;
   }
+
 
   public transformXAxis = '';
   public transformYAxis = '';
@@ -118,10 +120,17 @@ export class NgxDateBarChartComponent implements OnInit {
 
     if (this.fixedXTicks) {
       xAxis = xAxis.tickValues(
-        this.preProcessorService.startOfDay(this.fixedXTicks)
+        this.fixedXTicks.map((d) => this.preProcessorService.toStartOfDay(d))
       );
     } else {
       xAxis = xAxis.ticks(d3.timeDay);
+      xAxis = xAxis.tickValues(
+        this.helperService.createTicksBasedOnWidth(
+          this.chartWidth,
+          this.xDomain,
+          this.minSpacePerXTick
+        )
+      );
     }
 
     const xAxisElement: any = this.selectChart().selectAll('g.x-axis');
