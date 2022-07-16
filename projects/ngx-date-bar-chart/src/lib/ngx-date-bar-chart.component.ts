@@ -4,6 +4,7 @@ import { INgxDateValue } from './interfaces/date-value.interface';
 import { HelperService } from './services/helper.service';
 import { AxisDomain } from 'd3';
 import { PreProcessorService } from './services/pre-processor.service';
+import {LegendPosition} from "./enums/legend-position.enum";
 
 @Component({
   selector: 'ngx-date-bar-chart',
@@ -25,6 +26,8 @@ export class NgxDateBarChartComponent implements OnInit {
   @Input() barRadiusFunction: ((barWidth: number) => number) | undefined;
   @Input() colors: string[] = ['#6bc5c4'];
   @Input() minSpacePerXTick = 60;
+  @Input() legendItems: { name: string; color: string; }[];
+  @Input() legendPosition: LegendPosition = LegendPosition.BOTTOM_LEFT;
   @Input() set xAxisHeight(height: number) {
     if (height < 0 || height >= this.fullHeight) {
       return;
@@ -177,5 +180,15 @@ export class NgxDateBarChartComponent implements OnInit {
     this.calculateDimension();
     this.initScales();
     this.drawAxis();
+  }
+
+  public getFlexItemFromPosition(position: LegendPosition): object {
+    if (position.includes('Left')) {
+      return {};
+    } else if (position.includes('Right')) {
+      return {'justify-content' : 'end'}
+    } else {
+      return {'justify-content' : 'center'}
+    }
   }
 }
