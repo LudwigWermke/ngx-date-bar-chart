@@ -64,6 +64,10 @@ export class StackedBarComponent implements OnInit {
     return this.entry?.values || [];
   }
 
+  public get padding(): number {
+    return ((this.yScale(0) / this.values.length) * this.innerSpacing) / 2;
+  }
+
   public y(index: number): number {
     if (index < 0) {
       return 0;

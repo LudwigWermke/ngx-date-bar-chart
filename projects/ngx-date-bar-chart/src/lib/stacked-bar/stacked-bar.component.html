@@ -1,8 +1,8 @@
 <svg:rect
         *ngFor="let value of entry?.values || []; index as i"
         [attr.x]="x"
-        [attr.y]="y(i)"
-        [attr.height]="height(i)"
+        [attr.y]="y(i) + padding"
+        [attr.height]="height(i) - padding"
         [attr.width]="barWidth"
         [attr.fill]="color(i)"
         [attr.rx]="30"

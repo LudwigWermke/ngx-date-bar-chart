@@ -57,7 +57,7 @@ export class NgxDateBarChartComponent implements OnInit {
   }
 
   @Input() barSpacingPercentage = 0.2;
-  @Input() barSeriesInnersSpacing = 0.2;
+  @Input() barSeriesInnersSpacing = 0.05;
   @Input() set stacked(stacked: boolean) {
     this.isStacked = stacked;
     this.calcDomainsAndResize();

@@ -25,7 +25,7 @@ export class AppComponent {
 
       data.push({
         date,
-        values: [i, i],
+        values: [i, i, 3 * i, 2 * i],
         // value: i * i,
       });
     }
