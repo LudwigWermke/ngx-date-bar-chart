@@ -19,7 +19,7 @@ export class AppComponent {
   constructor() {
     const data: INgxDateValueSeries[] = [];
     // const data: INgxDateValue[] = [];
-    for (let i = 30; i < 35; ++i) {
+    for (let i = 10; i < 30; ++i) {
       const date = new Date();
       date.setDate(new Date().getDate() + i);
 

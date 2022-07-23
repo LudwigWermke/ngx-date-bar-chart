@@ -79,4 +79,31 @@ export class StackedBarComponent implements OnInit {
 
     return this.getY(sum);
   }
+
+  public get radius(): number {
+    if (!this.rounded) {
+      return 0;
+    }
+    if (this.barRadiusFunction) {
+      return this.barRadiusFunction(this.barWidth);
+    }
+    return Math.min(this.barWidth > 1 ? this.barWidth / 3 : 1, 20);
+  }
+
+  getTopPadding(index: number): number {
+    if (index === this.values.length - 1) {
+      return 0;
+    }
+    return this.padding;
+  }
+
+  getHeightDiff(index: number): number {
+    if (index === this.values.length - 1) {
+      return this.padding;
+    }
+    if (index === 0) {
+      return this.padding;
+    }
+    return this.padding * 2;
+  }
 }
