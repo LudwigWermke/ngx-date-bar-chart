@@ -39,6 +39,7 @@ export class NgxDateBarChartComponent implements OnInit {
     this.padding.left = width;
   }
 
+  @Input() fontSizeTicks = '1rem';
 
   public transformXAxis = '';
   public transformYAxis = '';
@@ -64,7 +65,7 @@ export class NgxDateBarChartComponent implements OnInit {
     Math.random() * 1_000_000
   )}`;
 
-  private padding = { top: 10, left: 50, right: 0, bottom: 20 };
+  private padding = { top: 10, left: 50, right: 10, bottom: 30 };
 
   constructor(
     private helperService: HelperService,
@@ -177,5 +178,12 @@ export class NgxDateBarChartComponent implements OnInit {
     this.calculateDimension();
     this.initScales();
     this.drawAxis();
+    this.selectChart()
+      .selectAll('.axis text')
+      .style('font-size', this.fontSizeTicks);
+
+    this.selectChart()
+      .selectAll('.x-axis .tick text')
+      .style('transform', 'translate(0,3px)');
   }
 }

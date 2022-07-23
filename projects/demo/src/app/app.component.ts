@@ -1,6 +1,5 @@
 import { Component, QueryList, ViewChildren } from '@angular/core';
 import { INgxDateValue } from 'projects/ngx-date-bar-chart/src/lib/interfaces/date-value.interface';
-import { NgxDateBarChartComponent } from '../../../ngx-date-bar-chart/src/lib/ngx-date-bar-chart.component';
 
 @Component({
   selector: 'app-root',
@@ -34,13 +33,12 @@ export class AppComponent {
     // }, 5000);
   }
 
-  // Todo write example in doc
-  // public barRadiusFunction(barWidth: number): number {
-  //   return 10;
-  // }
+  public barRadiusFunction(barWidth: number): number {
+    return barWidth / 3;
+  }
 
-  // Todo write example in doc
-  /*public formatDate(date: Date): string {
-    return new Date(date).getDay().toString();
-  }*/
+  // // Todo write example in doc
+  // public formatDate(date: Date): string {
+  //   return new Date(date).getDay().toString();
+  // }
 }
