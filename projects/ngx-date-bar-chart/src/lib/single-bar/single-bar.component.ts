@@ -47,8 +47,7 @@ export class SingleBarComponent implements OnInit {
   public get height(): number {
     // diff to start this.
     const diff = this.y - this.getY(this.yDomain[1]);
-    const rest = this.getY(this.yDomain[0]) - diff;
-    return rest;
+    return this.getY(this.yDomain[0]) - diff;
   }
 
   public get y(): number {

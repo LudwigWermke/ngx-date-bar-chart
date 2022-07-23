@@ -14,9 +14,11 @@ export class AppComponent {
   // children!: QueryList<NgxDateBarChartComponent>;
 
   public data: INgxDateValueSeries[] = [];
+  // public data: INgxDateValue[] = [];
 
   constructor() {
     const data: INgxDateValueSeries[] = [];
+    // const data: INgxDateValue[] = [];
     for (let i = 0; i < 10; ++i) {
       const date = new Date();
       date.setDate(new Date().getDate() + i);
@@ -24,6 +26,7 @@ export class AppComponent {
       data.push({
         date,
         values: [i * i, ((i * i) / 4) * 3, i * i],
+        // value: i * i,
       });
     }
 

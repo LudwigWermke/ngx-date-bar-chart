@@ -19,14 +19,15 @@ export class NgxDateBarChartComponent implements OnInit {
 
     // single bar chart
     if ('value' in data[0]) {
-      data = data as INgxDateValue[];
-      this.processedData = this.preProcessorService.preProcess(data);
+      this.processedData = this.preProcessorService.preProcess(
+        data as INgxDateValue[]
+      );
       this.xDomain = this.helperService.getXDomain(this.processedData);
       this.yDomain = this.helperService.getYDomain(this.processedData);
     } else {
-      data = data as INgxDateValueSeries[];
-      this.processedDataSeries =
-        this.preProcessorService.preProcessSeries(data);
+      this.processedDataSeries = this.preProcessorService.preProcessSeries(
+        data as INgxDateValueSeries[]
+      );
       this.xDomain = this.helperService.getXDomain(this.processedDataSeries);
       this.yDomain = this.helperService.getYDomainSeries(
         this.processedDataSeries
