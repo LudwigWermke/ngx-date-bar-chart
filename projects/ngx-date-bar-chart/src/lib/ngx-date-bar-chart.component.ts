@@ -38,12 +38,17 @@ export class NgxDateBarChartComponent implements OnInit {
   }
 
   @Input() formatDateFunction: ((date: Date) => string) | undefined;
+
   @Input() fixedXTicks: Date[] | undefined;
   @Input() fixedYTicks: number[] | undefined;
+
   @Input() rounded = true;
   @Input() barRadiusFunction: ((barWidth: number) => number) | undefined;
+
   @Input() colors: string[] = ['#6bc5c4'];
+
   @Input() minSpacePerXTick = 60;
+
   @Input() set xAxisHeight(height: number) {
     if (height < 0 || height >= this.fullHeight) {
       return;
