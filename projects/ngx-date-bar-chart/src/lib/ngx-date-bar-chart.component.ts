@@ -22,19 +22,12 @@ export class NgxDateBarChartComponent implements OnInit {
       this.processedData = this.preProcessorService.preProcess(
         data as INgxDateValue[]
       );
-      this.xDomain = this.helperService.getXDomain(this.processedData);
-      this.yDomain = this.helperService.getYDomain(this.processedData);
     } else {
       this.processedDataSeries = this.preProcessorService.preProcessSeries(
         data as INgxDateValueSeries[]
       );
-      this.xDomain = this.helperService.getXDomain(this.processedDataSeries);
-      this.yDomain = this.helperService.getYDomainSeries(
-        this.processedDataSeries
-      );
     }
-
-    setTimeout(() => this.resize());
+    this.calcDomainsAndResize();
   }
 
   @Input() formatDateFunction: ((date: Date) => string) | undefined;
@@ -65,6 +58,12 @@ export class NgxDateBarChartComponent implements OnInit {
 
   @Input() barSpacingPercentage = 0.2;
   @Input() barSeriesInnersSpacing = 0.2;
+  @Input() set stacked(stacked: boolean) {
+    this.isStacked = stacked;
+    this.calcDomainsAndResize();
+  }
+
+  public isStacked = false;
 
   public transformXAxis = '';
   public transformYAxis = '';
@@ -202,5 +201,20 @@ export class NgxDateBarChartComponent implements OnInit {
     this.calculateDimension();
     this.initScales();
     this.drawAxis();
+  }
+
+  public calcDomainsAndResize(): void {
+    if (this.processedData?.length) {
+      this.xDomain = this.helperService.getXDomain(this.processedData);
+      this.yDomain = this.helperService.getYDomain(this.processedData);
+    }
+    if (this.processedDataSeries?.length) {
+      this.xDomain = this.helperService.getXDomain(this.processedDataSeries);
+      this.yDomain = this.helperService.getYDomainSeries(
+        this.processedDataSeries,
+        this.isStacked
+      );
+    }
+    setTimeout(() => this.resize());
   }
 }

@@ -39,8 +39,17 @@ export class HelperService {
     ];
   }
 
+  private sum(entry: INgxDateValueSeries): number {
+    let sum = 0;
+    for (const value of entry.values) {
+      sum += value;
+    }
+    return sum;
+  }
+
   public getYDomainSeries(
-    processedData: INgxDateValueSeries[]
+    processedData: INgxDateValueSeries[],
+    stacked: boolean
   ): [number, number] {
     if (!processedData?.length) {
       throw new RangeError(
@@ -48,8 +57,14 @@ export class HelperService {
       );
     }
 
-    const min = Math.min(...processedData.map((d) => Math.min(...d.values)));
-    const max = Math.max(...processedData.map((d) => Math.max(...d.values)));
+    const min = Math.min(
+      ...processedData.map((d) => (stacked ? 0 : Math.min(...d.values)))
+    );
+    const max = Math.max(
+      ...processedData.map((d) =>
+        stacked ? this.sum(d) : Math.max(...d.values)
+      )
+    );
 
     return [min, max * 1.1];
   }

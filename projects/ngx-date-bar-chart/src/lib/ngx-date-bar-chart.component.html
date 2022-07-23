@@ -19,11 +19,30 @@
     </g>
 
     <!-- bar series -->
-    <g *ngIf="processedDataSeries && !!yScale && !!xScale">
+    <g *ngIf="processedDataSeries && !!yScale && !!xScale && !isStacked">
       <g
               [attr.transform]="transformYAxis"
               *ngFor="let entry of processedDataSeries; index as i"
               ngx-date-bar-series-bar
+              [entry]="entry"
+              [xScale]="xScale"
+              [yScale]="yScale"
+              [yDomain]="yDomain"
+              [barWidth]="barWidth"
+              [indexOfEntry]="i"
+              [rounded]="rounded"
+              [barRadiusFunction]="barRadiusFunction"
+              [colors]="colors"
+              [innerSpacing]="barSeriesInnersSpacing"
+      ></g>
+    </g>
+
+    <!-- bar series -->
+    <g *ngIf="processedDataSeries && !!yScale && !!xScale && isStacked">
+      <g
+              [attr.transform]="transformYAxis"
+              *ngFor="let entry of processedDataSeries; index as i"
+              ngx-date-bar-stacked-bar
               [entry]="entry"
               [xScale]="xScale"
               [yScale]="yScale"
