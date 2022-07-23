@@ -21,7 +21,7 @@ export class SeriesBarComponent implements OnInit {
     }
     this.internalColors = colors;
   }
-  @Input() paddingBetweenBars = 0.2;
+  @Input() innerSpacing = 0.2;
 
   private internalColors: string[] = ['green'];
 
@@ -50,9 +50,7 @@ export class SeriesBarComponent implements OnInit {
   }
 
   public get width(): number {
-    return (
-      (this.barWidth * (1 - this.paddingBetweenBars)) / this.numberOfEntries
-    );
+    return (this.barWidth * (1 - this.innerSpacing)) / this.numberOfEntries;
   }
 
   private getY(value: number | undefined): number {

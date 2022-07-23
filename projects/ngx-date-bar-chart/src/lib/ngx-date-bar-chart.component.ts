@@ -58,6 +58,9 @@ export class NgxDateBarChartComponent implements OnInit {
     this.padding.left = width;
   }
 
+  @Input() barSpacingPercentage = 0.2;
+  @Input() barSeriesInnersSpacing = 0.2;
+
   public transformXAxis = '';
   public transformYAxis = '';
 
@@ -76,8 +79,6 @@ export class NgxDateBarChartComponent implements OnInit {
   public chartWidth = 400;
 
   public barWidth = 5;
-
-  public spacingPercentage = 0.2;
 
   public internalId = `ngx-date-bar-chart${Math.round(
     Math.random() * 1_000_000
@@ -109,7 +110,7 @@ export class NgxDateBarChartComponent implements OnInit {
 
     this.barWidth = this.helperService.getBarWidth(
       this.chartWidth,
-      this.spacingPercentage,
+      this.barSpacingPercentage,
       daysDiff
     );
   }
