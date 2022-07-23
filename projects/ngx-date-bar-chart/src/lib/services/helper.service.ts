@@ -23,15 +23,25 @@ export class HelperService {
     return [min, max];
   }
 
-  public getYDomain(processedData: INgxDateValue[]): [number, number] {
+  public getYDomain(
+    processedData: INgxDateValue[],
+    manualYMin: number | undefined,
+    manualYMax: number | undefined
+  ): [number, number] {
     if (!processedData?.length) {
       throw new RangeError(
         'needs at least one value to properly set up chart.'
       );
     }
 
-    const min = Math.min(...processedData.map((c) => c.value));
-    const max = Math.max(...processedData.map((c) => c.value));
+    const min =
+      manualYMin || manualYMin === 0
+        ? manualYMin
+        : Math.min(...processedData.map((c) => c.value));
+    const max =
+      manualYMax || manualYMax === 0
+        ? manualYMax
+        : Math.max(...processedData.map((c) => c.value));
 
     return [min, 1.1 * max];
   }

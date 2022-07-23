@@ -13,9 +13,7 @@ import { PreProcessorService } from './services/pre-processor.service';
 export class NgxDateBarChartComponent implements OnInit {
   @Input() set data(data: INgxDateValue[]) {
     this.processedData = this.preProcessorService.preProcess(data);
-    this.xDomain = this.helperService.getXDomain(this.processedData);
-    this.yDomain = this.helperService.getYDomain(this.processedData);
-    setTimeout(() => this.resize());
+    this.calcDomainsAndResize();
   }
 
   @Input() formatDateFunction: ((date: Date) => string) | undefined;
@@ -41,14 +39,14 @@ export class NgxDateBarChartComponent implements OnInit {
 
   @Input() fontSizeTicks = '1rem';
 
-  @Input() set yMax(yMax: number) {
-    this.yDomain = [this.yDomain[0], yMax];
-    setTimeout(() => this.resize());
+  @Input() set yMax(yMax: number | undefined) {
+    this.manualYMax = yMax;
+    this.calcDomainsAndResize();
   }
 
-  @Input() set yMin(yMin: number) {
-    this.yDomain = [yMin, this.yDomain[1]];
-    setTimeout(() => this.resize());
+  @Input() set yMin(yMin: number | undefined) {
+    this.manualYMin = yMin;
+    this.calcDomainsAndResize();
   }
 
   public transformXAxis = '';
@@ -76,6 +74,9 @@ export class NgxDateBarChartComponent implements OnInit {
   )}`;
 
   private padding = { top: 10, left: 50, right: 10, bottom: 30 };
+
+  private manualYMax: number | undefined = undefined;
+  private manualYMin: number | undefined = undefined;
 
   constructor(
     private helperService: HelperService,
@@ -197,5 +198,16 @@ export class NgxDateBarChartComponent implements OnInit {
     this.calculateDimension();
     this.initScales();
     this.drawAxis();
+  }
+
+  private calcDomainsAndResize(): void {
+    this.yDomain = this.helperService.getYDomain(
+      this.processedData,
+      this.manualYMin,
+      this.manualYMax
+    );
+
+    this.xDomain = this.helperService.getXDomain(this.processedData);
+    setTimeout(() => this.resize());
   }
 }
