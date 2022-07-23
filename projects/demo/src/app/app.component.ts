@@ -1,4 +1,4 @@
-import { Component, QueryList, ViewChildren } from '@angular/core';
+import { Component } from '@angular/core';
 import { INgxDateValue } from 'projects/ngx-date-bar-chart/src/lib/interfaces/date-value.interface';
 import { NgxDateBarChartComponent } from '../../../ngx-date-bar-chart/src/lib/ngx-date-bar-chart.component';
 import { INgxDateValueSeries } from '../../../ngx-date-bar-chart/src/lib/interfaces/date-value-series.interface';

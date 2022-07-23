@@ -1,0 +1,25 @@
+<svg:g>
+  <clipPath [id]="getClipId()">
+    <rect
+      [attr.x]="x"
+      [attr.y]="y"
+      [attr.height]="2 * (height + radius)"
+      [attr.width]="width"
+      [attr.rx]="radius"
+      [attr.ry]="radius"
+    ></rect>
+  </clipPath>
+
+  <!-- just drop the to be clipped inside a g, add the clip url, and we are good to go -->
+  <g [attr.clip-path]="rounded ? getClipUrl(): null">
+    <g>
+      <rect
+        [attr.x]="x"
+        [attr.y]="y"
+        [attr.height]="height"
+        [attr.width]="width"
+        [attr.fill]="color"
+      ></rect>
+    </g>
+  </g>
+</svg:g>
