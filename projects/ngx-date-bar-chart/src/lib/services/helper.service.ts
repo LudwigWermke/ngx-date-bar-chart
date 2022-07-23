@@ -30,10 +30,10 @@ export class HelperService {
       );
     }
 
-    return [
-      processedData[0].value,
-      1.2 * processedData[processedData.length - 1].value,
-    ];
+    const min = Math.min(...processedData.map((c) => c.value));
+    const max = Math.max(...processedData.map((c) => c.value));
+
+    return [min, 1.1 * max];
   }
 
   public getBarWidth(
