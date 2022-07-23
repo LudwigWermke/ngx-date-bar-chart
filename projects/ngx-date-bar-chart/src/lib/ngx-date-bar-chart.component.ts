@@ -4,6 +4,7 @@ import { INgxDateValue } from './interfaces/date-value.interface';
 import { HelperService } from './services/helper.service';
 import { AxisDomain } from 'd3';
 import { PreProcessorService } from './services/pre-processor.service';
+import { INgxDateValueSeries } from './interfaces/date-value-series.interface';
 
 @Component({
   selector: 'ngx-date-bar-chart',
@@ -11,10 +12,27 @@ import { PreProcessorService } from './services/pre-processor.service';
   styleUrls: ['./ngx-date-bar-chart.component.css'],
 })
 export class NgxDateBarChartComponent implements OnInit {
-  @Input() set data(data: INgxDateValue[]) {
-    this.processedData = this.preProcessorService.preProcess(data);
-    this.xDomain = this.helperService.getXDomain(this.processedData);
-    this.yDomain = this.helperService.getYDomain(this.processedData);
+  @Input() set data(data: INgxDateValue[] | INgxDateValueSeries[]) {
+    if (data.length === 0) {
+      return;
+    }
+
+    // single bar chart
+    if ('value' in data[0]) {
+      data = data as INgxDateValue[];
+      this.processedData = this.preProcessorService.preProcess(data);
+      this.xDomain = this.helperService.getXDomain(this.processedData);
+      this.yDomain = this.helperService.getYDomain(this.processedData);
+    } else {
+      data = data as INgxDateValueSeries[];
+      this.processedDataSeries =
+        this.preProcessorService.preProcessSeries(data);
+      this.xDomain = this.helperService.getXDomain(this.processedDataSeries);
+      this.yDomain = this.helperService.getYDomainSeries(
+        this.processedDataSeries
+      );
+    }
+
     setTimeout(() => this.resize());
   }
 
@@ -39,11 +57,11 @@ export class NgxDateBarChartComponent implements OnInit {
     this.padding.left = width;
   }
 
-
   public transformXAxis = '';
   public transformYAxis = '';
 
   public processedData: INgxDateValue[] = [];
+  public processedDataSeries: INgxDateValueSeries[] = [];
 
   public xDomain: [Date, Date] = [new Date(), new Date()];
   public yDomain: [number, number] = [0, 100];

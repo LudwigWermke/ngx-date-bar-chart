@@ -18,6 +18,24 @@
       ></g>
     </g>
 
+    <!-- multi bars -->
+    <g *ngIf="processedDataSeries && !!yScale && !!xScale">
+      <g
+              [attr.transform]="transformYAxis"
+              *ngFor="let entry of processedDataSeries; index as i"
+              ngx-date-bar-series-bar
+              [entry]="entry"
+              [xScale]="xScale"
+              [yScale]="yScale"
+              [yDomain]="yDomain"
+              [barWidth]="barWidth"
+              [index]="i"
+              [rounded]="rounded"
+              [barRadiusFunction]="barRadiusFunction"
+              [colors]="colors"
+      ></g>
+    </g>
+
     <g class="axis x-axis" [attr.transform]="transformXAxis"></g>
     <g class="axis y-axis" [attr.transform]="transformYAxis"></g>
   </svg>

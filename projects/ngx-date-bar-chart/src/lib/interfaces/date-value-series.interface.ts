@@ -1,4 +1,4 @@
 export interface INgxDateValueSeries {
-    value: number[];
-    date: Date;
+  values: number[];
+  date: Date;
 }

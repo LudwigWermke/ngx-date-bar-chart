@@ -1,6 +1,7 @@
 import { Component, QueryList, ViewChildren } from '@angular/core';
 import { INgxDateValue } from 'projects/ngx-date-bar-chart/src/lib/interfaces/date-value.interface';
 import { NgxDateBarChartComponent } from '../../../ngx-date-bar-chart/src/lib/ngx-date-bar-chart.component';
+import { INgxDateValueSeries } from '../../../ngx-date-bar-chart/src/lib/interfaces/date-value-series.interface';
 
 @Component({
   selector: 'app-root',
@@ -12,17 +13,17 @@ export class AppComponent {
   // @ViewChildren(NgxDateBarChartComponent)
   // children!: QueryList<NgxDateBarChartComponent>;
 
-  public data: INgxDateValue[] = [];
+  public data: INgxDateValueSeries[] = [];
 
   constructor() {
-    const data: INgxDateValue[] = [];
-    for (let i = 0; i < 30; ++i) {
+    const data: INgxDateValueSeries[] = [];
+    for (let i = 0; i < 10; ++i) {
       const date = new Date();
       date.setDate(new Date().getDate() + i);
 
       data.push({
         date,
-        value: i * i,
+        values: [i * i, ((i * i) / 4) * 3, i * i],
       });
     }
 

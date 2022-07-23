@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { INgxDateValue } from '../interfaces/date-value.interface';
 import { PreProcessorService } from './pre-processor.service';
+import { INgxDateValueSeries } from '../interfaces/date-value-series.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -8,7 +9,9 @@ import { PreProcessorService } from './pre-processor.service';
 export class HelperService {
   constructor(private preProcessorService: PreProcessorService) {}
 
-  public getXDomain(processedData: INgxDateValue[]): [Date, Date] {
+  public getXDomain(
+    processedData: INgxDateValue[] | INgxDateValueSeries[]
+  ): [Date, Date] {
     if (!processedData?.length) {
       throw new RangeError(
         'needs at least one value to properly set up chart.'
@@ -34,6 +37,21 @@ export class HelperService {
       processedData[0].value,
       1.2 * processedData[processedData.length - 1].value,
     ];
+  }
+
+  public getYDomainSeries(
+    processedData: INgxDateValueSeries[]
+  ): [number, number] {
+    if (!processedData?.length) {
+      throw new RangeError(
+        'needs at least one value to properly set up chart.'
+      );
+    }
+
+    const min = Math.min(...processedData.map((d) => Math.min(...d.values)));
+    const max = Math.max(...processedData.map((d) => Math.max(...d.values)));
+
+    return [min, max * 1.1];
   }
 
   public getBarWidth(
