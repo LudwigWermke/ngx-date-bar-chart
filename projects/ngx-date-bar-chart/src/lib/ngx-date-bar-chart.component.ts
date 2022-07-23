@@ -156,6 +156,15 @@ export class NgxDateBarChartComponent implements OnInit {
     const yAxisElement: any = this.selectChart().selectAll('g.y-axis');
 
     yAxisElement.call(yAxis);
+
+    // lastly: adjust font-sizes of tick text
+    this.selectChart()
+      .selectAll('.axis text')
+      .style('font-size', this.fontSizeTicks);
+
+    this.selectChart()
+      .selectAll('.x-axis .tick text')
+      .style('transform', 'translate(0,3px)');
   }
 
   private formatDate(x: AxisDomain): string {
@@ -188,12 +197,5 @@ export class NgxDateBarChartComponent implements OnInit {
     this.calculateDimension();
     this.initScales();
     this.drawAxis();
-    this.selectChart()
-      .selectAll('.axis text')
-      .style('font-size', this.fontSizeTicks);
-
-    this.selectChart()
-      .selectAll('.x-axis .tick text')
-      .style('transform', 'translate(0,3px)');
   }
 }
