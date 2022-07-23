@@ -18,7 +18,7 @@
       ></g>
     </g>
 
-    <!-- multi bars -->
+    <!-- bar series -->
     <g *ngIf="processedDataSeries && !!yScale && !!xScale">
       <g
               [attr.transform]="transformYAxis"
@@ -29,12 +29,14 @@
               [yScale]="yScale"
               [yDomain]="yDomain"
               [barWidth]="barWidth"
-              [index]="i"
+              [indexOfEntry]="i"
               [rounded]="rounded"
               [barRadiusFunction]="barRadiusFunction"
               [colors]="colors"
       ></g>
     </g>
+
+    <!-- TODO: stacked -->
 
     <g class="axis x-axis" [attr.transform]="transformXAxis"></g>
     <g class="axis y-axis" [attr.transform]="transformYAxis"></g>

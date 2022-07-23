@@ -13,7 +13,7 @@ export class SeriesBarComponent implements OnInit {
   @Input() yScale: any;
   @Input() yDomain = [0, 100];
   @Input() rounded = true;
-  @Input() index = 0;
+  @Input() indexOfEntry = 0;
   @Input() barRadiusFunction: ((barWidth: number) => number) | undefined;
   @Input() set colors(colors: string[]) {
     if (!colors || colors?.length === 0) {
@@ -21,16 +21,17 @@ export class SeriesBarComponent implements OnInit {
     }
     this.internalColors = colors;
   }
+  @Input() paddingBetweenBars = 0.2;
 
   private internalColors: string[] = ['green'];
+
+  private get numberOfEntries() {
+    return this.entry?.values?.length || 1; // less than 1 will not be rendered
+  }
 
   public color(index: number): string {
     return this.internalColors[index % this.internalColors.length];
   }
-
-  private internalId = `ngx-date-bar-chart-bar-${Math.round(
-    Math.random() * 1_000_000
-  )}-${this.index}`;
 
   constructor() {}
 
@@ -40,20 +41,18 @@ export class SeriesBarComponent implements OnInit {
     if (!this.xScale || !this.entry?.date) {
       return 0;
     }
+
     return (
       this.xScale(this.entry.date) -
       this.barWidth / 2 +
-      this.width * index +
-      ((this.barWidth * 0.1) / this.entry.values.length) * index +
-      (this.barWidth * 0.05) / this.entry.values.length
+      (this.barWidth / this.numberOfEntries) * index
     );
   }
 
   public get width(): number {
-    if (!this.entry?.values?.length) {
-      return this.barWidth;
-    }
-    return (this.barWidth * 0.9) / this.entry.values.length;
+    return (
+      (this.barWidth * (1 - this.paddingBetweenBars)) / this.numberOfEntries
+    );
   }
 
   private getY(value: number | undefined): number {
@@ -74,28 +73,5 @@ export class SeriesBarComponent implements OnInit {
 
   public y(index: number): number {
     return this.getY(this.entry?.values[index]);
-  }
-
-  public getClipId(index: number): string {
-    return `${this.internalId}-bar-clip-path-${index}`;
-  }
-
-  public getClipUrl(index: number): string {
-    return `url(#${this.getClipId(index)})`;
-  }
-
-  public get radius(): number {
-    if (this.barRadiusFunction) {
-      return this.barRadiusFunction(this.barWidth);
-    }
-    const divider = this.entry?.values?.length || 1;
-    return Math.min(this.barWidth > 1 ? this.barWidth / divider / 3 : 1, 20);
-  }
-
-  getValues(): number[] {
-    if (this.entry?.values?.length) {
-      return this.entry.values;
-    }
-    return [];
   }
 }

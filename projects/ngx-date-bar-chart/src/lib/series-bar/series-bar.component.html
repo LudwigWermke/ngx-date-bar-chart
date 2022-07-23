@@ -1,37 +1,12 @@
-  <svg:g *ngFor="let value of getValues(); index as i">
-    <svg:g *ngIf="!rounded; else roundedBar">
-      <rect
-        [attr.x]="x(i)"
-        [attr.y]="y(i)"
-        [attr.height]="height(i)"
-        [attr.width]="width"
-        [attr.fill]="color(i)"
-      ></rect>
-    </svg:g>
-
-    <ng-template #roundedBar>
-      <svg:clipPath [id]="getClipId(i)">
-        <svg:rect
-          [attr.x]="x(i)"
-          [attr.y]="y(i)"
-          [attr.height]="2 * (height(i) + radius)"
-          [attr.width]="width"
-          [attr.rx]="radius"
-          [attr.ry]="radius"
-        ></svg:rect>
-      </svg:clipPath>
-
-      <!-- just drop the to be clipped inside a g, add the clip url, and we are good to go -->
-      <svg:g [attr.clip-path]="getClipUrl(i)">
-        <svg:g>
-          <svg:rect
-            [attr.x]="x(i)"
-            [attr.y]="y(i)"
-            [attr.height]="height(i)"
-            [attr.width]="width"
-            [attr.fill]="color(i)"
-          ></svg:rect>
-        </svg:g>
-      </svg:g>
-    </ng-template>
-  </svg:g>
+<svg:g
+  *ngFor="let value of entry?.values || []; index as i"
+  ngx-base-bar
+  [x]="x(i)"
+  [y]="y(i)"
+  [height]="height(i)"
+  [width]="width"
+  [color]="color(i)"
+  [rounded]="rounded"
+  [barRadiusFunction]="barRadiusFunction"
+  [index]="indexOfEntry"
+></svg:g>
