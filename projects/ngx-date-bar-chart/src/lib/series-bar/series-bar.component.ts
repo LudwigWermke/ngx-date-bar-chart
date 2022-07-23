@@ -45,7 +45,8 @@ export class SeriesBarComponent implements OnInit {
     return (
       this.xScale(this.entry.date) -
       this.barWidth / 2 +
-      (this.barWidth / this.numberOfEntries) * index
+      (this.barWidth / this.numberOfEntries) * index +
+      ((this.innerSpacing / 2) * this.barWidth) / this.numberOfEntries
     );
   }
 
