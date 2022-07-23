@@ -41,6 +41,16 @@ export class NgxDateBarChartComponent implements OnInit {
 
   @Input() fontSizeTicks = '1rem';
 
+  @Input() set yMax(yMax: number) {
+    this.yDomain = [this.yDomain[0], yMax];
+    setTimeout(() => this.resize());
+  }
+
+  @Input() set yMin(yMin: number) {
+    this.yDomain = [yMin, this.yDomain[1]];
+    setTimeout(() => this.resize());
+  }
+
   public transformXAxis = '';
   public transformYAxis = '';
 
