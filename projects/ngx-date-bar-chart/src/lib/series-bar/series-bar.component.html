@@ -1,0 +1,12 @@
+<svg:g
+  *ngFor="let value of entry?.values || []; index as i"
+  ngx-base-bar
+  [x]="x(i)"
+  [y]="y(i)"
+  [height]="height(i)"
+  [width]="width"
+  [color]="color(i)"
+  [rounded]="rounded"
+  [barRadiusFunction]="barRadiusFunction"
+  [index]="indexOfEntry"
+></svg:g>
