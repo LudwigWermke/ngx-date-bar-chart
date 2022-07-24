@@ -37,15 +37,27 @@ export class HelperService {
       );
     }
 
-    const min =
-      manualYMin !== undefined
-        ? manualYMin
-        : Math.min(...processedData.map((c) => c.value));
+    let min: number;
+    if (manualYMin !== undefined) {
+      min = manualYMin;
+    } else {
+      if (processedData.length === 1) {
+        min = processedData[0].value - 10;
+      } else {
+        min = Math.min(...processedData.map((c) => c.value));
+      }
+    }
 
-    const max =
-      manualYMax !== undefined
-        ? manualYMax
-        : 1.1 * Math.max(...processedData.map((c) => c.value));
+    let max: number;
+    if (manualYMax !== undefined) {
+      max = manualYMax;
+    } else {
+      if (processedData.length === 1) {
+        max = processedData[0].value + 5;
+      } else {
+        max = 1.1 * Math.max(...processedData.map((c) => c.value));
+      }
+    }
 
     return [min, max];
   }
@@ -70,21 +82,23 @@ export class HelperService {
       );
     }
 
-    const min = stacked ? 0 :
-      manualYMin !== undefined
-        ? manualYMin
-        : Math.min(
-      ...processedData.map((d) => (stacked ? 0 : Math.min(...d.values)))
-    );
+    const min = stacked
+      ? 0
+      : manualYMin !== undefined
+      ? manualYMin
+      : Math.min(
+          ...processedData.map((d) => (stacked ? 0 : Math.min(...d.values)))
+        );
 
     const max =
       manualYMax !== undefined
         ? manualYMax
-        : 1.1 * Math.max(
-      ...processedData.map((d) =>
-        stacked ? this.sum(d) : Math.max(...d.values)
-      )
-    );
+        : 1.1 *
+          Math.max(
+            ...processedData.map((d) =>
+              stacked ? this.sum(d) : Math.max(...d.values)
+            )
+          );
 
     return [min, max];
   }
