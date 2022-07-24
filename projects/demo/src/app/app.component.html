@@ -1,7 +1,12 @@
 <div class="overflow-wrapper">
   <div >
+    <p>
+      This shows basic examples for different chart types and various configurations. Change the size of your
+      viewport to see the resizing in action. If you need to manually resize, see the corresponding
+      ts code to the component via ViewChildren.
+    </p>
     <div>
-      <h2>basic example</h2>
+      <h2>1. Basic Chart</h2>
       <div class="chart-container">
         <ngx-date-bar-chart
           [colors]="['navy', 'dodgerblue']"
@@ -16,7 +21,7 @@
     </div>
 
     <div>
-      <h2>basic series example</h2>
+      <h2>2. Basic Series - out of the box </h2>
       <div class="chart-container">
         <ngx-date-bar-chart
           [colors]="['navy', 'dodgerblue', '#333']"
@@ -24,14 +29,36 @@
           [legendLabels]="['this is some data but as a series']"
           [xAxisLabel]="'dates'"
           [yAxisLabel]="'values'"
-          [yMin]="0"
           [barSeriesInnersSpacing]="0.15"
         ></ngx-date-bar-chart>
       </div>
     </div>
 
     <div>
-      <h2>basic stacked series example</h2>
+      <h2>2.1 Same data but using more customization </h2>
+      <div class="chart-container">
+        <ngx-date-bar-chart
+                [colors]="['navy', 'dodgerblue', '#333']"
+                [data]="basicSeriesData"
+                [fontSizeTicks]="'10px'"
+                [barRadiusFunction]="barRadiusFunction"
+                [formatDateFunction]="formatDate"
+                [yAxisWidth]="50"
+                [xAxisHeight]="65"
+                [legendLabels]="['data row 1', 'data row 2', 'data row 3']"
+                [legendPosition]="LegendPosition.TOP_RIGHT"
+                [xAxisLabel]="'dates'"
+                [yAxisLabel]="'values'"
+                [yMin]="0"
+                [yMax]="140"
+                [barSpacingPercentage]="0.3"
+                [barSeriesInnersSpacing]="0.05"
+        ></ngx-date-bar-chart>
+      </div>
+    </div>
+
+    <div>
+      <h2>3. Basic Stacked Series</h2>
       <div class="chart-container">
         <ngx-date-bar-chart
                 [colors]="['navy', 'dodgerblue', '#333']"
