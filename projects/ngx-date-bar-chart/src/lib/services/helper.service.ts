@@ -23,17 +23,27 @@ export class HelperService {
     return [min, max];
   }
 
-  public getYDomain(processedData: INgxDateValue[]): [number, number] {
+  public getYDomain(
+    processedData: INgxDateValue[],
+    manualYMin: number | undefined,
+    manualYMax: number | undefined
+  ): [number, number] {
     if (!processedData?.length) {
       throw new RangeError(
         'needs at least one value to properly set up chart.'
       );
     }
 
-    return [
-      processedData[0].value,
-      1.2 * processedData[processedData.length - 1].value,
-    ];
+    const min =
+      manualYMin !== undefined
+        ? manualYMin
+        : Math.min(...processedData.map((c) => c.value));
+
+    const max = manualYMax !== undefined
+        ? manualYMax
+        : Math.max(...processedData.map((c) => c.value));
+
+    return [min, 1.1 * max];
   }
 
   public getBarWidth(
