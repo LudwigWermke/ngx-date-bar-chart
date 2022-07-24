@@ -26,6 +26,20 @@ export class HelperService {
     return [min, max];
   }
 
+  private getMin(
+    data: INgxDateValue[],
+    manualYMin: number | undefined
+  ): number {
+    if (manualYMin !== undefined) {
+      return manualYMin;
+    }
+
+    if (data.length === 1) {
+      return data[0].value - 10;
+    }
+    return Math.min(...data.map((c) => c.value));
+  }
+
   public getYDomain(
     processedData: INgxDateValue[],
     manualYMin: number | undefined,
@@ -37,29 +51,10 @@ export class HelperService {
       );
     }
 
-    let min: number;
-    if (manualYMin !== undefined) {
-      min = manualYMin;
-    } else {
-      if (processedData.length === 1) {
-        min = processedData[0].value - 10;
-      } else {
-        min = Math.min(...processedData.map((c) => c.value));
-      }
-    }
-
-    let max: number;
-    if (manualYMax !== undefined) {
-      max = manualYMax;
-    } else {
-      if (processedData.length === 1) {
-        max = processedData[0].value + 5;
-      } else {
-        max = 1.1 * Math.max(...processedData.map((c) => c.value));
-      }
-    }
-
-    return [min, max];
+    return [
+      this.getMin(processedData, manualYMin),
+      this.getMax(processedData, manualYMax),
+    ];
   }
 
   private sum(entry: INgxDateValueSeries): number {
@@ -136,5 +131,18 @@ export class HelperService {
       dates.push(start);
     }
     return dates;
+  }
+
+  private getMax(
+    processedData: INgxDateValue[],
+    manualYMax: number | undefined
+  ) {
+    if (manualYMax !== undefined) {
+      return manualYMax;
+    }
+    if (processedData.length === 1) {
+      return processedData[0].value + 5;
+    }
+    return 1.1 * Math.max(...processedData.map((c) => c.value));
   }
 }
