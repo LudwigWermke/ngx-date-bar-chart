@@ -38,13 +38,12 @@ export class AppComponent {
     // }, 5000);
   }
 
-  // Todo write example in doc
-  // public barRadiusFunction(barWidth: number): number {
-  //   return 10;
-  // }
+  public barRadiusFunction(barWidth: number): number {
+    return barWidth / 3;
+  }
 
-  // Todo write example in doc
-  /*public formatDate(date: Date): string {
-    return new Date(date).getDay().toString();
-  }*/
+  // // Todo write example in doc
+  // public formatDate(date: Date): string {
+  //   return new Date(date).getDay().toString();
+  // }
 }
