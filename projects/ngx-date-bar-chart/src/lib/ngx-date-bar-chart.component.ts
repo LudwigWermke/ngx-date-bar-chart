@@ -26,7 +26,7 @@ export class NgxDateBarChartComponent implements OnInit {
   @Input() barRadiusFunction: ((barWidth: number) => number) | undefined;
   @Input() colors: string[] = ['#6bc5c4'];
   @Input() minSpacePerXTick = 60;
-  @Input() legendItems: { name: string; color: string; }[];
+  @Input() legendItems: { name: string; color: string; }[] = [];
   @Input() legendPosition: LegendPosition = LegendPosition.BOTTOM_LEFT;
   @Input() set xAxisHeight(height: number) {
     if (height < 0 || height >= this.fullHeight) {
