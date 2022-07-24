@@ -4,7 +4,8 @@ import { INgxDateValue } from './interfaces/date-value.interface';
 import { HelperService } from './services/helper.service';
 import { AxisDomain } from 'd3';
 import { PreProcessorService } from './services/pre-processor.service';
-import {LegendPosition} from "./enums/legend-position.enum";
+import { INgxDateValueSeries } from './interfaces/date-value-series.interface';
+import { LegendPosition } from './enums/legend-position.enum';
 
 @Component({
   selector: 'ngx-date-bar-chart',
@@ -12,17 +13,30 @@ import {LegendPosition} from "./enums/legend-position.enum";
   styleUrls: ['./ngx-date-bar-chart.component.css'],
 })
 export class NgxDateBarChartComponent implements OnInit {
-  @Input() set data(data: INgxDateValue[]) {
-    this.processedData = this.preProcessorService.preProcess(data);
+  @Input() set data(data: INgxDateValue[] | INgxDateValueSeries[]) {
+    // single bar chart
+    if ('value' in data[0]) {
+      this.processedData = this.preProcessorService.preProcess(
+        data as INgxDateValue[]
+      );
+    } else {
+      this.processedDataSeries = this.preProcessorService.preProcessSeries(
+        data as INgxDateValueSeries[]
+      );
+    }
     this.calcDomainsAndResize();
   }
 
   @Input() formatDateFunction: ((date: Date) => string) | undefined;
+
   @Input() fixedXTicks: Date[] | undefined;
   @Input() fixedYTicks: number[] | undefined;
+
   @Input() rounded = true;
   @Input() barRadiusFunction: ((barWidth: number) => number) | undefined;
+
   @Input() colors: string[] = ['#6bc5c4'];
+
   @Input() minSpacePerXTick = 60;
   @Input() legendLabels: string[] = [];
   @Input() legendPosition: LegendPosition = LegendPosition.BOTTOM_LEFT;
@@ -40,6 +54,8 @@ export class NgxDateBarChartComponent implements OnInit {
     this.padding.left = width;
   }
 
+  @Input() barSpacingPercentage = 0.2;
+  @Input() barSeriesInnersSpacing = 0.2;
   @Input() fontSizeTicks = '1rem';
 
   @Input() set yMax(yMax: number | undefined) {
@@ -56,6 +72,7 @@ export class NgxDateBarChartComponent implements OnInit {
   public transformYAxis = '';
 
   public processedData: INgxDateValue[] = [];
+  public processedDataSeries: INgxDateValueSeries[] = [];
 
   public xDomain: [Date, Date] = [new Date(), new Date()];
   public yDomain: [number, number] = [0, 100];
@@ -69,8 +86,6 @@ export class NgxDateBarChartComponent implements OnInit {
   public chartWidth = 400;
 
   public barWidth = 5;
-
-  public spacingPercentage = 0.2;
 
   public internalId = `ngx-date-bar-chart${Math.round(
     Math.random() * 1_000_000
@@ -105,7 +120,7 @@ export class NgxDateBarChartComponent implements OnInit {
 
     this.barWidth = this.helperService.getBarWidth(
       this.chartWidth,
-      this.spacingPercentage,
+      this.barSpacingPercentage,
       daysDiff
     );
   }
@@ -210,17 +225,29 @@ export class NgxDateBarChartComponent implements OnInit {
     if (position.includes('Right')) {
       return 'align-flex-center';
     }
-      return 'align-flex-center';
+    return 'align-flex-center';
   }
 
   private calcDomainsAndResize(): void {
-    this.yDomain = this.helperService.getYDomain(
-      this.processedData,
-      this.manualYMin,
-      this.manualYMax
-    );
+    if (this.processedData.length > 0) {
+      this.xDomain = this.helperService.getXDomain(this.processedData);
 
-    this.xDomain = this.helperService.getXDomain(this.processedData);
+      this.yDomain = this.helperService.getYDomain(
+        this.processedData,
+        this.manualYMin,
+        this.manualYMax
+      );
+    }
+
+    if (this.processedDataSeries.length > 0) {
+      this.xDomain = this.helperService.getXDomain(this.processedDataSeries);
+      this.yDomain = this.helperService.getYDomainSeries(
+        this.processedDataSeries,
+        this.manualYMin,
+        this.manualYMax
+      );
+    }
+
     setTimeout(() => this.resize());
   }
 }

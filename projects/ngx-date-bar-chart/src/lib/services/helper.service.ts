@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { INgxDateValue } from '../interfaces/date-value.interface';
 import { PreProcessorService } from './pre-processor.service';
+import { INgxDateValueSeries } from '../interfaces/date-value-series.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -8,7 +9,9 @@ import { PreProcessorService } from './pre-processor.service';
 export class HelperService {
   constructor(private preProcessorService: PreProcessorService) {}
 
-  public getXDomain(processedData: INgxDateValue[]): [Date, Date] {
+  public getXDomain(
+    processedData: INgxDateValue[] | INgxDateValueSeries[]
+  ): [Date, Date] {
     if (!processedData?.length) {
       throw new RangeError(
         'needs at least one value to properly set up chart.'
@@ -39,11 +42,35 @@ export class HelperService {
         ? manualYMin
         : Math.min(...processedData.map((c) => c.value));
 
-    const max = manualYMax !== undefined
+    const max =
+      manualYMax !== undefined
         ? manualYMax
-        : Math.max(...processedData.map((c) => c.value));
+        : 1.1 * Math.max(...processedData.map((c) => c.value));
 
-    return [min, 1.1 * max];
+    return [min, max];
+  }
+
+  public getYDomainSeries(
+    processedData: INgxDateValueSeries[],
+    manualYMin: number | undefined,
+    manualYMax: number | undefined
+  ): [number, number] {
+    if (!processedData?.length) {
+      throw new RangeError(
+        'needs at least one value to properly set up chart.'
+      );
+    }
+
+    const min =
+      manualYMin !== undefined
+        ? manualYMin
+        : Math.min(...processedData.map((d) => Math.min(...d.values)));
+    const max =
+      manualYMax !== undefined
+        ? manualYMax
+        : 1.1 * Math.max(...processedData.map((d) => Math.max(...d.values)));
+
+    return [min, max];
   }
 
   public getBarWidth(
