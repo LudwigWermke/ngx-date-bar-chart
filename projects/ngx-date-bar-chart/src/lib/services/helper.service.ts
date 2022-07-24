@@ -26,17 +26,28 @@ export class HelperService {
     return [min, max];
   }
 
-  public getYDomain(processedData: INgxDateValue[]): [number, number] {
+  public getYDomain(
+    processedData: INgxDateValue[],
+    manualYMin: number | undefined,
+    manualYMax: number | undefined
+  ): [number, number] {
     if (!processedData?.length) {
       throw new RangeError(
         'needs at least one value to properly set up chart.'
       );
     }
 
-    return [
-      processedData[0].value,
-      1.2 * processedData[processedData.length - 1].value,
-    ];
+    const min =
+      manualYMin !== undefined
+        ? manualYMin
+        : Math.min(...processedData.map((c) => c.value));
+
+    const max =
+      manualYMax !== undefined
+        ? manualYMax
+        : 1.1 * Math.max(...processedData.map((c) => c.value));
+
+    return [min, max];
   }
 
   private sum(entry: INgxDateValueSeries): number {
@@ -49,7 +60,9 @@ export class HelperService {
 
   public getYDomainSeries(
     processedData: INgxDateValueSeries[],
-    stacked: boolean
+    stacked: boolean,
+    manualYMin: number | undefined,
+    manualYMax: number | undefined
   ): [number, number] {
     if (!processedData?.length) {
       throw new RangeError(
@@ -57,16 +70,23 @@ export class HelperService {
       );
     }
 
-    const min = Math.min(
+    const min = stacked ? 0 :
+      manualYMin !== undefined
+        ? manualYMin
+        : Math.min(
       ...processedData.map((d) => (stacked ? 0 : Math.min(...d.values)))
     );
-    const max = Math.max(
+
+    const max =
+      manualYMax !== undefined
+        ? manualYMax
+        : 1.1 * Math.max(
       ...processedData.map((d) =>
         stacked ? this.sum(d) : Math.max(...d.values)
       )
     );
 
-    return [min, max * 1.1];
+    return [min, max];
   }
 
   public getBarWidth(

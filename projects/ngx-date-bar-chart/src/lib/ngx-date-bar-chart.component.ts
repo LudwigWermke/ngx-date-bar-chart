@@ -5,6 +5,7 @@ import { HelperService } from './services/helper.service';
 import { AxisDomain } from 'd3';
 import { PreProcessorService } from './services/pre-processor.service';
 import { INgxDateValueSeries } from './interfaces/date-value-series.interface';
+import { LegendPosition } from './enums/legend-position.enum';
 
 @Component({
   selector: 'ngx-date-bar-chart',
@@ -13,10 +14,6 @@ import { INgxDateValueSeries } from './interfaces/date-value-series.interface';
 })
 export class NgxDateBarChartComponent implements OnInit {
   @Input() set data(data: INgxDateValue[] | INgxDateValueSeries[]) {
-    if (data.length === 0) {
-      return;
-    }
-
     // single bar chart
     if ('value' in data[0]) {
       this.processedData = this.preProcessorService.preProcess(
@@ -41,7 +38,8 @@ export class NgxDateBarChartComponent implements OnInit {
   @Input() colors: string[] = ['#6bc5c4'];
 
   @Input() minSpacePerXTick = 60;
-
+  @Input() legendLabels: string[] = [];
+  @Input() legendPosition: LegendPosition = LegendPosition.BOTTOM_LEFT;
   @Input() set xAxisHeight(height: number) {
     if (height < 0 || height >= this.fullHeight) {
       return;
@@ -64,6 +62,17 @@ export class NgxDateBarChartComponent implements OnInit {
   }
 
   public isStacked = false;
+  @Input() fontSizeTicks = '1rem';
+
+  @Input() set yMax(yMax: number | undefined) {
+    this.manualYMax = yMax;
+    this.calcDomainsAndResize();
+  }
+
+  @Input() set yMin(yMin: number | undefined) {
+    this.manualYMin = yMin;
+    this.calcDomainsAndResize();
+  }
 
   public transformXAxis = '';
   public transformYAxis = '';
@@ -88,7 +97,10 @@ export class NgxDateBarChartComponent implements OnInit {
     Math.random() * 1_000_000
   )}`;
 
-  private padding = { top: 10, left: 50, right: 0, bottom: 20 };
+  private padding = { top: 10, left: 50, right: 10, bottom: 30 };
+
+  private manualYMax: number | undefined = undefined;
+  private manualYMin: number | undefined = undefined;
 
   constructor(
     private helperService: HelperService,
@@ -169,6 +181,15 @@ export class NgxDateBarChartComponent implements OnInit {
     const yAxisElement: any = this.selectChart().selectAll('g.y-axis');
 
     yAxisElement.call(yAxis);
+
+    // lastly: adjust font-sizes of tick text
+    this.selectChart()
+      .selectAll('.axis text')
+      .style('font-size', this.fontSizeTicks);
+
+    this.selectChart()
+      .selectAll('.x-axis .tick text')
+      .style('transform', 'translate(0,3px)');
   }
 
   private formatDate(x: AxisDomain): string {
@@ -203,18 +224,37 @@ export class NgxDateBarChartComponent implements OnInit {
     this.drawAxis();
   }
 
-  public calcDomainsAndResize(): void {
-    if (this.processedData?.length) {
-      this.xDomain = this.helperService.getXDomain(this.processedData);
-      this.yDomain = this.helperService.getYDomain(this.processedData);
+  public getFlexClass(position: LegendPosition): string {
+    if (position.includes('Left')) {
+      return '';
     }
-    if (this.processedDataSeries?.length) {
+    if (position.includes('Right')) {
+      return 'align-flex-center';
+    }
+    return 'align-flex-center';
+  }
+
+  private calcDomainsAndResize(): void {
+    if (this.processedData.length > 0) {
+      this.xDomain = this.helperService.getXDomain(this.processedData);
+
+      this.yDomain = this.helperService.getYDomain(
+        this.processedData,
+        this.manualYMin,
+        this.manualYMax
+      );
+    }
+
+    if (this.processedDataSeries.length > 0) {
       this.xDomain = this.helperService.getXDomain(this.processedDataSeries);
       this.yDomain = this.helperService.getYDomainSeries(
         this.processedDataSeries,
-        this.isStacked
+        this.isStacked,
+        this.manualYMin,
+        this.manualYMax
       );
     }
+
     setTimeout(() => this.resize());
   }
 }
