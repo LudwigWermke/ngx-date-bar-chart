@@ -62,6 +62,25 @@
 
     <g class="axis x-axis" [attr.transform]="transformXAxis"></g>
     <g class="axis y-axis" [attr.transform]="transformYAxis"></g>
+
+    <text *ngIf="xAxisLabel"
+          text-anchor="middle"
+          alignment-baseline="hanging"
+          dominant-baseline="hanging"
+          font-weight="bold"
+          font-size="1.3em"
+          [attr.transform]="getXAxisLabelPosition()"
+    >{{xAxisLabel}}</text>
+
+    <text *ngIf="yAxisLabel"
+          text-anchor="middle"
+          alignment-baseline="hanging"
+          dominant-baseline="hanging"
+          font-weight="bold"
+          font-size="1.3em"
+          [attr.transform]="getYAxisLabelPosition()"
+    >{{yAxisLabel}}</text>
+
   </svg>
 </div>
 

@@ -1,11 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import {Component, OnInit, Input} from '@angular/core';
 import * as d3 from 'd3';
-import { INgxDateValue } from './interfaces/date-value.interface';
-import { HelperService } from './services/helper.service';
-import { AxisDomain } from 'd3';
-import { PreProcessorService } from './services/pre-processor.service';
-import { INgxDateValueSeries } from './interfaces/date-value-series.interface';
-import { LegendPosition } from './enums/legend-position.enum';
+import {INgxDateValue} from './interfaces/date-value.interface';
+import {HelperService} from './services/helper.service';
+import {AxisDomain} from 'd3';
+import {PreProcessorService} from './services/pre-processor.service';
+import {INgxDateValueSeries} from './interfaces/date-value-series.interface';
+import {LegendPosition} from './enums/legend-position.enum';
 
 @Component({
   selector: 'ngx-date-bar-chart',
@@ -40,6 +40,9 @@ export class NgxDateBarChartComponent implements OnInit {
   @Input() minSpacePerXTick = 60;
   @Input() legendLabels: string[] = [];
   @Input() legendPosition: LegendPosition = LegendPosition.BOTTOM_LEFT;
+  @Input() xAxisLabel: string | undefined = 'cooles label';
+  @Input() yAxisLabel: string | undefined = 'cooles label';
+
   @Input() set xAxisHeight(height: number) {
     if (height < 0 || height >= this.fullHeight) {
       return;
@@ -56,6 +59,7 @@ export class NgxDateBarChartComponent implements OnInit {
 
   @Input() barSpacingPercentage = 0.2;
   @Input() barSeriesInnersSpacing = 0.05;
+
   @Input() set stacked(stacked: boolean) {
     this.isStacked = stacked;
     this.calcDomainsAndResize();
@@ -97,7 +101,7 @@ export class NgxDateBarChartComponent implements OnInit {
     Math.random() * 1_000_000
   )}`;
 
-  private padding = { top: 10, left: 50, right: 10, bottom: 30 };
+  private padding = {top: 10, left: 70, right: 10, bottom: 60};
 
   private manualYMax: number | undefined = undefined;
   private manualYMin: number | undefined = undefined;
@@ -105,7 +109,8 @@ export class NgxDateBarChartComponent implements OnInit {
   constructor(
     private helperService: HelperService,
     private preProcessorService: PreProcessorService
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     setTimeout(() => this.resize());
@@ -199,7 +204,7 @@ export class NgxDateBarChartComponent implements OnInit {
       return this.formatDateFunction(date);
     }
 
-    const options: any = { month: '2-digit', day: '2-digit' };
+    const options: any = {month: '2-digit', day: '2-digit'};
     return date.toLocaleDateString('en-US', options);
   }
 
@@ -256,5 +261,13 @@ export class NgxDateBarChartComponent implements OnInit {
     }
 
     setTimeout(() => this.resize());
+  }
+
+  public getXAxisLabelPosition(): string {
+    return `translate(${this.padding.left + this.chartWidth / 2}, ${this.chartHeight + this.padding.top + 40})`;
+  }
+
+  public getYAxisLabelPosition(): string {
+    return `rotate(-90) translate(${-this.chartHeight / 2 + this.padding.top}, ${0})`
   }
 }
