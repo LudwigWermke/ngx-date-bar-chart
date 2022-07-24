@@ -42,15 +42,18 @@ export class HelperService {
         ? manualYMin
         : Math.min(...processedData.map((c) => c.value));
 
-    const max = manualYMax !== undefined
+    const max =
+      manualYMax !== undefined
         ? manualYMax
-        : Math.max(...processedData.map((c) => c.value));
+        : 1.1 * Math.max(...processedData.map((c) => c.value));
 
-    return [min, 1.1 * max];
+    return [min, max];
   }
 
   public getYDomainSeries(
-    processedData: INgxDateValueSeries[]
+    processedData: INgxDateValueSeries[],
+    manualYMin: number | undefined,
+    manualYMax: number | undefined
   ): [number, number] {
     if (!processedData?.length) {
       throw new RangeError(
@@ -58,10 +61,16 @@ export class HelperService {
       );
     }
 
-    const min = Math.min(...processedData.map((d) => Math.min(...d.values)));
-    const max = Math.max(...processedData.map((d) => Math.max(...d.values)));
+    const min =
+      manualYMin !== undefined
+        ? manualYMin
+        : Math.min(...processedData.map((d) => Math.min(...d.values)));
+    const max =
+      manualYMax !== undefined
+        ? manualYMax
+        : 1.1 * Math.max(...processedData.map((d) => Math.max(...d.values)));
 
-    return [min, max * 1.1];
+    return [min, max];
   }
 
   public getBarWidth(

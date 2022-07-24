@@ -5,7 +5,7 @@ import { HelperService } from './services/helper.service';
 import { AxisDomain } from 'd3';
 import { PreProcessorService } from './services/pre-processor.service';
 import { INgxDateValueSeries } from './interfaces/date-value-series.interface';
-import {LegendPosition} from "./enums/legend-position.enum";
+import { LegendPosition } from './enums/legend-position.enum';
 
 @Component({
   selector: 'ngx-date-bar-chart',
@@ -13,24 +13,18 @@ import {LegendPosition} from "./enums/legend-position.enum";
   styleUrls: ['./ngx-date-bar-chart.component.css'],
 })
 export class NgxDateBarChartComponent implements OnInit {
-  @Input() set data(data: INgxDateValue[]) {
-
+  @Input() set data(data: INgxDateValue[] | INgxDateValueSeries[]) {
     // single bar chart
     if ('value' in data[0]) {
       this.processedData = this.preProcessorService.preProcess(
-          data as INgxDateValue[]
+        data as INgxDateValue[]
       );
-      this.xDomain = this.helperService.getXDomain(this.processedData);
-      this.yDomain = this.helperService.getYDomain(this.processedData);
     } else {
       this.processedDataSeries = this.preProcessorService.preProcessSeries(
-          data as INgxDateValueSeries[]
+        data as INgxDateValueSeries[]
       );
-      this.xDomain = this.helperService.getXDomain(this.processedDataSeries);
-      this.yDomain = this.helperService.getYDomainSeries(
-          this.processedDataSeries
-      );
-    }    this.calcDomainsAndResize();
+    }
+    this.calcDomainsAndResize();
   }
 
   @Input() formatDateFunction: ((date: Date) => string) | undefined;
@@ -231,17 +225,29 @@ export class NgxDateBarChartComponent implements OnInit {
     if (position.includes('Right')) {
       return 'align-flex-center';
     }
-      return 'align-flex-center';
+    return 'align-flex-center';
   }
 
   private calcDomainsAndResize(): void {
-    this.yDomain = this.helperService.getYDomain(
-      this.processedData,
-      this.manualYMin,
-      this.manualYMax
-    );
+    if (this.processedData.length > 0) {
+      this.xDomain = this.helperService.getXDomain(this.processedData);
 
-    this.xDomain = this.helperService.getXDomain(this.processedData);
+      this.yDomain = this.helperService.getYDomain(
+        this.processedData,
+        this.manualYMin,
+        this.manualYMax
+      );
+    }
+
+    if (this.processedDataSeries.length > 0) {
+      this.xDomain = this.helperService.getXDomain(this.processedDataSeries);
+      this.yDomain = this.helperService.getYDomainSeries(
+        this.processedDataSeries,
+        this.manualYMin,
+        this.manualYMax
+      );
+    }
+
     setTimeout(() => this.resize());
   }
 }
