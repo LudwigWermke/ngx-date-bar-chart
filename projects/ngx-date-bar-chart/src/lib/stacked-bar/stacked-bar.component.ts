@@ -21,7 +21,6 @@ export class StackedBarComponent implements OnInit {
     }
     this.internalColors = colors;
   }
-  @Input() innerSpacing = 0.2;
 
   private internalColors: string[] = ['green'];
 
@@ -64,10 +63,6 @@ export class StackedBarComponent implements OnInit {
     return this.entry?.values || [];
   }
 
-  public get padding(): number {
-    return ((this.yScale(0) / this.values.length) * this.innerSpacing) / 2;
-  }
-
   public y(index: number): number {
     if (index < 0) {
       return 0;
@@ -88,22 +83,5 @@ export class StackedBarComponent implements OnInit {
       return this.barRadiusFunction(this.barWidth);
     }
     return Math.min(this.barWidth > 1 ? this.barWidth / 3 : 1, 20);
-  }
-
-  getTopPadding(index: number): number {
-    if (index === this.values.length - 1) {
-      return 0;
-    }
-    return this.padding;
-  }
-
-  getHeightDiff(index: number): number {
-    if (index === this.values.length - 1) {
-      return this.padding;
-    }
-    if (index === 0) {
-      return this.padding;
-    }
-    return this.padding * 2;
   }
 }

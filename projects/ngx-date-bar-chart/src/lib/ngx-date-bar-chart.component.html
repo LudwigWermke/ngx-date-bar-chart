@@ -42,7 +42,7 @@
       ></g>
     </g>
 
-    <!-- bar series -->
+    <!-- stacked series -->
     <g *ngIf="processedDataSeries && !!yScale && !!xScale && isStacked">
       <g
               [attr.transform]="transformYAxis"
@@ -57,11 +57,8 @@
               [rounded]="rounded"
               [barRadiusFunction]="barRadiusFunction"
               [colors]="colors"
-              [innerSpacing]="barSeriesInnersSpacing"
       ></g>
     </g>
-
-    <!-- TODO: stacked -->
 
     <g class="axis x-axis" [attr.transform]="transformXAxis"></g>
     <g class="axis y-axis" [attr.transform]="transformYAxis"></g>
