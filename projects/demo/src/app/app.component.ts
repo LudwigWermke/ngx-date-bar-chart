@@ -23,12 +23,10 @@ export class AppComponent {
   public basicSeriesData: INgxDateValueSeries[] = [];
 
   public LegendPosition = LegendPosition;
-  public faultyData: INgxDateValue[] = [];
 
   constructor() {
     this.initBasicData();
     this.initBasicSeriesData();
-    this.initFaultyData();
   }
 
   public barRadiusFunction(barWidth: number): number {
@@ -58,15 +56,5 @@ export class AppComponent {
   public formatDate(date: Date): string {
     const options: any = { month: '2-digit', day: '2-digit', year: '2-digit' };
     return date.toLocaleDateString('de-DE', options);
-  }
-
-  private initFaultyData(): void {
-    const data: INgxDateValue[] = [];
-    for (let i = 0; i < 1; ++i) {
-      const date = new Date();
-      date.setDate(date.getDate() + i);
-      data.push({ date, value: 50 + i });
-    }
-    this.faultyData = data;
   }
 }
