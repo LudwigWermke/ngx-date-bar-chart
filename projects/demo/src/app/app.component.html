@@ -1,10 +1,31 @@
-<ngx-date-bar-chart
-  class="demo-chart"
-  [fontSizeTicks]="'1rem'"
-  [colors]="['navy', 'dodgerblue']"
-  [barRadiusFunction]="barRadiusFunction"
-  [data]="data"
-  [legendLabels]="['reihe 1', 'reihe 32']"
-  [stacked]="true"
-></ngx-date-bar-chart>
-<!--  [formatDateFunction]="formatDate"-->
+<div class="overflow-wrapper">
+  <div >
+    <div>
+      <h2>basic example</h2>
+      <div class="chart-container">
+        <ngx-date-bar-chart
+          [colors]="['navy', 'dodgerblue']"
+          [data]="basicData"
+          [legendLabels]="['this is some data']"
+          [xAxisLabel]="'dates'"
+          [yAxisLabel]="'values'"
+          [yMin]="0"
+        ></ngx-date-bar-chart>
+      </div>
+    </div>
+
+    <div>
+      <h2>basic series example</h2>
+      <div class="chart-container">
+        <ngx-date-bar-chart
+          [colors]="['navy', 'dodgerblue']"
+          [data]="basicData"
+          [legendLabels]="['this is some data']"
+          [xAxisLabel]="'dates'"
+          [yAxisLabel]="'values'"
+          [yMin]="0"
+        ></ngx-date-bar-chart>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { INgxDateValue } from 'projects/ngx-date-bar-chart/src/lib/interfaces/date-value.interface';
-import { NgxDateBarChartComponent } from '../../../ngx-date-bar-chart/src/lib/ngx-date-bar-chart.component';
 import { INgxDateValueSeries } from '../../../ngx-date-bar-chart/src/lib/interfaces/date-value-series.interface';
 
 @Component({
@@ -14,12 +13,13 @@ export class AppComponent {
   // children!: QueryList<NgxDateBarChartComponent>;
 
   public data: INgxDateValueSeries[] = [];
-  // public data: INgxDateValue[] = [];
+  public basicData: INgxDateValue[] = [];
 
   constructor() {
+    this.initBasicData();
     const data: INgxDateValueSeries[] = [];
     // const data: INgxDateValue[] = [];
-    for (let i = 10; i < 30; ++i) {
+    for (let i = 0; i < 10; ++i) {
       const date = new Date();
       date.setDate(new Date().getDate() + i);
 
@@ -42,8 +42,13 @@ export class AppComponent {
     return barWidth / 3;
   }
 
-  // // Todo write example in doc
-  // public formatDate(date: Date): string {
-  //   return new Date(date).getDay().toString();
-  // }
+  private initBasicData(): void {
+    const data: INgxDateValue[] = [];
+    for (let i = 0; i < 10; ++i) {
+      const date = new Date();
+      date.setDate(date.getDate() + i);
+      data.push({ date, value: 5 + i * i });
+    }
+    this.basicData = data;
+  }
 }
