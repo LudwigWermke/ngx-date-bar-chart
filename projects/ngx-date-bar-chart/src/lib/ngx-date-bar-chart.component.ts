@@ -14,9 +14,7 @@ import {LegendPosition} from "./enums/legend-position.enum";
 export class NgxDateBarChartComponent implements OnInit {
   @Input() set data(data: INgxDateValue[]) {
     this.processedData = this.preProcessorService.preProcess(data);
-    this.xDomain = this.helperService.getXDomain(this.processedData);
-    this.yDomain = this.helperService.getYDomain(this.processedData);
-    setTimeout(() => this.resize());
+    this.calcDomainsAndResize();
   }
 
   @Input() formatDateFunction: ((date: Date) => string) | undefined;
@@ -42,6 +40,17 @@ export class NgxDateBarChartComponent implements OnInit {
     this.padding.left = width;
   }
 
+  @Input() fontSizeTicks = '1rem';
+
+  @Input() set yMax(yMax: number | undefined) {
+    this.manualYMax = yMax;
+    this.calcDomainsAndResize();
+  }
+
+  @Input() set yMin(yMin: number | undefined) {
+    this.manualYMin = yMin;
+    this.calcDomainsAndResize();
+  }
 
   public transformXAxis = '';
   public transformYAxis = '';
@@ -67,7 +76,10 @@ export class NgxDateBarChartComponent implements OnInit {
     Math.random() * 1_000_000
   )}`;
 
-  private padding = { top: 10, left: 50, right: 0, bottom: 20 };
+  private padding = { top: 10, left: 50, right: 10, bottom: 30 };
+
+  private manualYMax: number | undefined = undefined;
+  private manualYMin: number | undefined = undefined;
 
   constructor(
     private helperService: HelperService,
@@ -148,6 +160,15 @@ export class NgxDateBarChartComponent implements OnInit {
     const yAxisElement: any = this.selectChart().selectAll('g.y-axis');
 
     yAxisElement.call(yAxis);
+
+    // lastly: adjust font-sizes of tick text
+    this.selectChart()
+      .selectAll('.axis text')
+      .style('font-size', this.fontSizeTicks);
+
+    this.selectChart()
+      .selectAll('.x-axis .tick text')
+      .style('transform', 'translate(0,3px)');
   }
 
   private formatDate(x: AxisDomain): string {
@@ -190,5 +211,16 @@ export class NgxDateBarChartComponent implements OnInit {
       return 'align-flex-center';
     }
       return 'align-flex-center';
+  }
+
+  private calcDomainsAndResize(): void {
+    this.yDomain = this.helperService.getYDomain(
+      this.processedData,
+      this.manualYMin,
+      this.manualYMax
+    );
+
+    this.xDomain = this.helperService.getXDomain(this.processedData);
+    setTimeout(() => this.resize());
   }
 }
