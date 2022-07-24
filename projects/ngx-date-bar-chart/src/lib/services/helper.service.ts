@@ -35,11 +35,11 @@ export class HelperService {
     }
 
     const min =
-      manualYMin || manualYMin === 0
+      manualYMin !== undefined
         ? manualYMin
         : Math.min(...processedData.map((c) => c.value));
-    const max =
-      manualYMax || manualYMax === 0
+
+    const max = manualYMax !== undefined
         ? manualYMax
         : Math.max(...processedData.map((c) => c.value));
 
