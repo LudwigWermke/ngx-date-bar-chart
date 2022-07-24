@@ -65,10 +65,10 @@
 
     <text *ngIf="xAxisLabel"
           text-anchor="middle"
-          alignment-baseline="hanging"
-          dominant-baseline="hanging"
+          alignment-baseline="bottom"
+          dominant-baseline="bottom"
           font-weight="bold"
-          font-size="1.3em"
+          font-size="1.2em"
           [attr.transform]="getXAxisLabelPosition()"
     >{{xAxisLabel}}</text>
 
@@ -77,7 +77,7 @@
           alignment-baseline="hanging"
           dominant-baseline="hanging"
           font-weight="bold"
-          font-size="1.3em"
+          font-size="1.2em"
           [attr.transform]="getYAxisLabelPosition()"
     >{{yAxisLabel}}</text>
 
