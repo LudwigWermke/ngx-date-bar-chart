@@ -14,9 +14,11 @@ export class AppComponent {
 
   public data: INgxDateValueSeries[] = [];
   public basicData: INgxDateValue[] = [];
+  public basicSeriesData: INgxDateValueSeries[] = [];
 
   constructor() {
     this.initBasicData();
+    this.initBasicSeriesData();
     const data: INgxDateValueSeries[] = [];
     // const data: INgxDateValue[] = [];
     for (let i = 0; i < 10; ++i) {
@@ -50,5 +52,15 @@ export class AppComponent {
       data.push({ date, value: 5 + i * i });
     }
     this.basicData = data;
+  }
+
+  private initBasicSeriesData(): void {
+    const data: INgxDateValueSeries[] = [];
+    for (let i = 0; i < 10; ++i) {
+      const date = new Date();
+      date.setDate(date.getDate() + i);
+      data.push({ date, values: [5 + i * i, 10 + i * i, 5 * i] });
+    }
+    this.basicSeriesData = data;
   }
 }
