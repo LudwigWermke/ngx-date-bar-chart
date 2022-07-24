@@ -1,3 +1,8 @@
+<ng-container
+  [ngTemplateOutlet]="legendTemplate"
+  *ngIf="legendLabels?.length && legendPosition.includes('top')">
+</ng-container>
+
 <div [id]="internalId" class="ngx-date-bar-chart" (window:resize)="resize()">
   <svg>
     <!-- single bars -->
@@ -22,3 +27,17 @@
     <g class="axis y-axis" [attr.transform]="transformYAxis"></g>
   </svg>
 </div>
+
+<ng-container
+  [ngTemplateOutlet]="legendTemplate"
+  *ngIf="legendLabels?.length && legendPosition.includes('bottom')">
+</ng-container>
+
+<ng-template #legendTemplate>
+  <div class="legend" [ngClass]="getFlexClass(legendPosition)">
+    <div class="legend-item" *ngFor="let item of legendLabels; index as i">
+      <div class="legend-square" [ngStyle]="{'background-color': colors[i % colors?.length]}"></div>
+      <span>{{item}}</span>
+    </div>
+  </div>
+</ng-template>
