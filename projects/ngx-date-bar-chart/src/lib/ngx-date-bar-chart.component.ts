@@ -55,7 +55,13 @@ export class NgxDateBarChartComponent implements OnInit {
   }
 
   @Input() barSpacingPercentage = 0.2;
-  @Input() barSeriesInnersSpacing = 0.2;
+  @Input() barSeriesInnersSpacing = 0.05;
+  @Input() set stacked(stacked: boolean) {
+    this.isStacked = stacked;
+    this.calcDomainsAndResize();
+  }
+
+  public isStacked = false;
   @Input() fontSizeTicks = '1rem';
 
   @Input() set yMax(yMax: number | undefined) {
@@ -243,6 +249,7 @@ export class NgxDateBarChartComponent implements OnInit {
       this.xDomain = this.helperService.getXDomain(this.processedDataSeries);
       this.yDomain = this.helperService.getYDomainSeries(
         this.processedDataSeries,
+        this.isStacked,
         this.manualYMin,
         this.manualYMax
       );

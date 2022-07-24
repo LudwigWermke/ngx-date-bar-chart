@@ -50,8 +50,17 @@ export class HelperService {
     return [min, max];
   }
 
+  private sum(entry: INgxDateValueSeries): number {
+    let sum = 0;
+    for (const value of entry.values) {
+      sum += value;
+    }
+    return sum;
+  }
+
   public getYDomainSeries(
     processedData: INgxDateValueSeries[],
+    stacked: boolean,
     manualYMin: number | undefined,
     manualYMax: number | undefined
   ): [number, number] {
@@ -61,14 +70,21 @@ export class HelperService {
       );
     }
 
-    const min =
+    const min = stacked ? 0 :
       manualYMin !== undefined
         ? manualYMin
-        : Math.min(...processedData.map((d) => Math.min(...d.values)));
+        : Math.min(
+      ...processedData.map((d) => (stacked ? 0 : Math.min(...d.values)))
+    );
+
     const max =
       manualYMax !== undefined
         ? manualYMax
-        : 1.1 * Math.max(...processedData.map((d) => Math.max(...d.values)));
+        : 1.1 * Math.max(
+      ...processedData.map((d) =>
+        stacked ? this.sum(d) : Math.max(...d.values)
+      )
+    );
 
     return [min, max];
   }
