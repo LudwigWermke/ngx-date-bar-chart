@@ -1,8 +1,8 @@
 export enum LegendPosition {
-  TOP = 'top',
+  TOP_CENTER = 'topCenter',
   TOP_LEFT = 'topLeft',
   TOP_RIGHT = 'topRight',
-  BOTTOM = 'bottom',
+  BOTTOM_CENTER = 'bottomCenter',
   BOTTOM_LEFT = 'bottomLeft',
   BOTTOM_RIGHT = 'bottomRight',
 }

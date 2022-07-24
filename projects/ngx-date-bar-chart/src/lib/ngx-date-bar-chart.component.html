@@ -1,6 +1,6 @@
 <ng-container
   [ngTemplateOutlet]="legendTemplate"
-  *ngIf="legendItems?.length && legendPosition.includes('top')">
+  *ngIf="legendLabels?.length && legendPosition.includes('top')">
 </ng-container>
 
 <div [id]="internalId" class="ngx-date-bar-chart" (window:resize)="resize()">
@@ -30,14 +30,14 @@
 
 <ng-container
   [ngTemplateOutlet]="legendTemplate"
-  *ngIf="legendItems?.length && legendPosition.includes('bottom')">
+  *ngIf="legendLabels?.length && legendPosition.includes('bottom')">
 </ng-container>
 
 <ng-template #legendTemplate>
-  <div class="legend" [ngStyle]="getFlexItemFromPosition(legendPosition)">
-    <div class="legend-item" *ngFor="let item  of legendItems">
-      <div class="legend-square" [ngStyle]="{'background-color': item.color}"></div>
-      <span>{{item.name}}</span>
+  <div class="legend" [ngClass]="getFlexClass(legendPosition)">
+    <div class="legend-item" *ngFor="let item of legendLabels; index as i">
+      <div class="legend-square" [ngStyle]="{'background-color': colors[i % colors?.length]}"></div>
+      <span>{{item}}</span>
     </div>
   </div>
 </ng-template>

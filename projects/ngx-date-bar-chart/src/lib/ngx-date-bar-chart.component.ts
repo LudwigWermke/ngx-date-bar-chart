@@ -26,7 +26,7 @@ export class NgxDateBarChartComponent implements OnInit {
   @Input() barRadiusFunction: ((barWidth: number) => number) | undefined;
   @Input() colors: string[] = ['#6bc5c4'];
   @Input() minSpacePerXTick = 60;
-  @Input() legendItems: { name: string; color: string; }[] = [];
+  @Input() legendLabels: string[] = [];
   @Input() legendPosition: LegendPosition = LegendPosition.BOTTOM_LEFT;
   @Input() set xAxisHeight(height: number) {
     if (height < 0 || height >= this.fullHeight) {
@@ -182,13 +182,13 @@ export class NgxDateBarChartComponent implements OnInit {
     this.drawAxis();
   }
 
-  public getFlexItemFromPosition(position: LegendPosition): object {
+  public getFlexClass(position: LegendPosition): string {
     if (position.includes('Left')) {
-      return {};
-    } else if (position.includes('Right')) {
-      return {'justify-content' : 'end'}
-    } else {
-      return {'justify-content' : 'center'}
+      return '';
     }
+    if (position.includes('Right')) {
+      return 'align-flex-center';
+    }
+      return 'align-flex-center';
   }
 }
