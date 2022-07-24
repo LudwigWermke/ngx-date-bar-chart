@@ -73,7 +73,7 @@
 <ng-template #legendTemplate>
   <div class="legend" [ngClass]="getFlexClass(legendPosition)">
     <div class="legend-item" *ngFor="let item of legendLabels; index as i">
-      <div class="legend-square" [ngStyle]="{'background-color': colors[i]}"></div>
+      <div class="legend-square" [ngStyle]="{'background-color': colors[i], 'font-size': fontSizeTicks}"></div>
       <span>{{item}}</span>
     </div>
   </div>
