@@ -24,10 +24,6 @@ export class StackedBarComponent implements OnInit {
 
   private internalColors: string[] = ['green'];
 
-  private get numberOfEntries() {
-    return this.entry?.values?.length || 1; // less than 1 will not be rendered
-  }
-
   public color(index: number): string {
     return this.internalColors[index % this.internalColors.length];
   }
