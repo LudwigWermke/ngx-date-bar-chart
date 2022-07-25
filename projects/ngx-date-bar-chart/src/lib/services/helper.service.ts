@@ -10,7 +10,9 @@ export class HelperService {
   constructor(private preProcessorService: PreProcessorService) {}
 
   public getXDomain(
-    processedData: INgxDateValue[] | INgxDateValueSeries[]
+    processedData: INgxDateValue[] | INgxDateValueSeries[],
+    manualXMin: Date | undefined,
+    manualXMax: Date | undefined
   ): [Date, Date] {
     if (!processedData?.length) {
       throw new RangeError(
@@ -18,10 +20,14 @@ export class HelperService {
       );
     }
 
-    const min = new Date(processedData[0].date);
+    const min =
+      manualXMin === undefined ? new Date(processedData[0].date) : manualXMin;
     min.setTime(min.getTime() - 12 * 3600 * 1000);
 
-    const max = new Date(processedData[processedData.length - 1].date);
+    const max =
+      manualXMax === undefined
+        ? new Date(processedData[processedData.length - 1].date)
+        : manualXMax;
     max.setTime(max.getTime() + 12 * 3600 * 1000);
     return [min, max];
   }
