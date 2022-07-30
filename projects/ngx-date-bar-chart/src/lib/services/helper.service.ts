@@ -45,15 +45,10 @@ export class HelperService {
   public getBarWidth(
     chartWidth: number,
     spacingPercentage: number,
-    daysDiff: number
+    xDomain: [Date, Date]
   ): number {
+    const daysDiff = this.daysDiff(xDomain);
     return ((1 - spacingPercentage) * chartWidth) / daysDiff;
-  }
-
-  public daysDiff(xDomain: [Date, Date]): number {
-    const start = xDomain[0];
-    const end = xDomain[1];
-    return (end.getTime() - start.getTime()) / 24 / 3600 / 1000;
   }
 
   public createTicksBasedOnWidth(
@@ -172,5 +167,11 @@ export class HelperService {
         'needs at least one value to properly set up chart.'
       );
     }
+  }
+
+  private daysDiff(xDomain: [Date, Date]): number {
+    const start = xDomain[0];
+    const end = xDomain[1];
+    return (end.getTime() - start.getTime()) / 24 / 3600 / 1000;
   }
 }

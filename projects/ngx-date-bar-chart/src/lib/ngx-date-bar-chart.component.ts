@@ -93,6 +93,8 @@ export class NgxDateBarChartComponent implements OnInit {
 
   public transformXAxis = '';
   public transformYAxis = '';
+  public transformXAxisLabel = '';
+  public transformYAxisLabel = '';
 
   public processedData: INgxDateValue[] = [];
   public processedDataSeries: INgxDateValueSeries[] = [];
@@ -125,26 +127,41 @@ export class NgxDateBarChartComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    setTimeout(() => this.resize());
+    this.resize();
+  }
+
+  public resize(): void {
+    setTimeout(() => {
+      this.updateDimensions();
+      this.calculateTransformations();
+      this.calculateBarWidth();
+      this.initScales();
+      this.drawAxis();
+    });
   }
 
   // mock method
-  private calculateDimension() {
-    this.chartHeight = this.fullHeight - this.padding.top - this.padding.bottom;
-    this.chartWidth = this.fullWidth - this.padding.left - this.padding.right;
-
+  private calculateTransformations() {
     // translates axis to left and bottom
     this.transformXAxis = `translate(${this.padding.left},${
       this.chartHeight + this.padding.top
     })`;
     this.transformYAxis = `translate(${this.padding.left},${this.padding.top})`;
 
-    const daysDiff = this.helperService.daysDiff(this.xDomain);
+    this.transformXAxisLabel = `translate(${
+      this.padding.left + this.chartWidth / 2
+    }, ${this.chartHeight + this.padding.top + 40})`;
 
+    this.transformYAxisLabel = `rotate(-90) translate(${
+      -this.chartHeight / 2 + this.padding.top
+    }, ${0})`;
+  }
+
+  private calculateBarWidth(): void {
     this.barWidth = this.helperService.getBarWidth(
       this.chartWidth,
       this.barSpacingPercentage,
-      daysDiff
+      this.xDomain
     );
   }
 
@@ -167,6 +184,7 @@ export class NgxDateBarChartComponent implements OnInit {
       return;
     }
 
+    // x axis
     let xAxis = d3
       .axisBottom(this.xScale)
       .tickFormat((x: AxisDomain) => this.formatDate(x));
@@ -189,6 +207,7 @@ export class NgxDateBarChartComponent implements OnInit {
     const xAxisElement: any = this.selectChart().selectAll('g.x-axis');
     xAxisElement.call(xAxis);
 
+    // y-axis
     let yAxis = d3.axisLeft(this.yScale).tickSizeOuter(0);
 
     if (this.fixedYTicks) {
@@ -196,7 +215,6 @@ export class NgxDateBarChartComponent implements OnInit {
     }
 
     const yAxisElement: any = this.selectChart().selectAll('g.y-axis');
-
     yAxisElement.call(yAxis);
 
     // lastly: adjust font-sizes of tick text
@@ -224,21 +242,18 @@ export class NgxDateBarChartComponent implements OnInit {
     return d3.select(`#${this.internalId}`).select('svg');
   }
 
-  public resize(): void {
+  private updateDimensions(): void {
     const node = this.selectChart().node();
     if (!node || !('getBoundingClientRect' in node)) {
       throw new Error(
         'cannot calculate width and height correctly, this should not happen. Please contact library maintainer.'
       );
     }
-
     const rect = node.getBoundingClientRect();
     this.fullWidth = rect.width;
     this.fullHeight = rect.height;
-
-    this.calculateDimension();
-    this.initScales();
-    this.drawAxis();
+    this.chartHeight = this.fullHeight - this.padding.top - this.padding.bottom;
+    this.chartWidth = this.fullWidth - this.padding.left - this.padding.right;
   }
 
   public getFlexClass(position: LegendPosition): string {
@@ -268,18 +283,6 @@ export class NgxDateBarChartComponent implements OnInit {
       this.isStacked
     );
 
-    setTimeout(() => this.resize());
-  }
-
-  public getXAxisLabelPosition(): string {
-    return `translate(${this.padding.left + this.chartWidth / 2}, ${
-      this.chartHeight + this.padding.top + 40
-    })`;
-  }
-
-  public getYAxisLabelPosition(): string {
-    return `rotate(-90) translate(${
-      -this.chartHeight / 2 + this.padding.top
-    }, ${0})`;
+    this.resize();
   }
 }
