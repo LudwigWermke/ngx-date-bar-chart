@@ -252,32 +252,21 @@ export class NgxDateBarChartComponent implements OnInit {
   }
 
   private calcDomainsAndResize(): void {
-    if (this.processedData.length > 0) {
-      this.xDomain = this.helperService.getXDomain(
-        this.processedData,
-        this.manualXMin,
-        this.manualXMax
-      );
-      this.yDomain = this.helperService.getYDomain(
-        this.processedData,
-        this.manualYMin,
-        this.manualYMax
-      );
-    }
-
-    if (this.processedDataSeries.length > 0) {
-      this.xDomain = this.helperService.getXDomain(
-        this.processedDataSeries,
-        this.manualXMin,
-        this.manualXMax
-      );
-      this.yDomain = this.helperService.getYDomainSeries(
-        this.processedDataSeries,
-        this.isStacked,
-        this.manualYMin,
-        this.manualYMax
-      );
-    }
+    const data =
+      this.processedData.length > 0
+        ? this.processedData
+        : this.processedDataSeries;
+    this.xDomain = this.helperService.getXDomain(
+      data,
+      this.manualXMin,
+      this.manualXMax
+    );
+    this.yDomain = this.helperService.getYDomain(
+      data,
+      this.manualYMin,
+      this.manualYMax,
+      this.isStacked
+    );
 
     setTimeout(() => this.resize());
   }
