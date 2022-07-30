@@ -5,6 +5,8 @@
   >
   </ng-container>
   <svg>
+    <g class="custom-before-rendering"></g>
+
     <!-- single bars -->
     <g *ngIf="processedData && !!yScale && !!xScale">
       <g
@@ -60,6 +62,8 @@
       ></g>
     </g>
 
+    <g class="custom-between-bar-and-axis"></g>
+
     <g class="axis x-axis" [attr.transform]="transformXAxis"></g>
     <g class="axis y-axis" [attr.transform]="transformYAxis"></g>
 
@@ -86,6 +90,8 @@
     >
       {{ yAxisLabel }}
     </text>
+
+    <g class="custom-after-rendering"></g>
   </svg>
   <ng-container
     [ngTemplateOutlet]="legendTemplate"

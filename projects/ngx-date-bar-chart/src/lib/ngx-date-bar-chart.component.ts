@@ -27,6 +27,27 @@ export class NgxDateBarChartComponent implements OnInit {
     this.calcDomainsAndResize();
   }
 
+  @Input() customDrawing:
+    | ((
+        boundingSvgSelection: any,
+
+        fullWidth: number,
+        fullHeight: number,
+        chartHeight: number,
+        chartWidth: number,
+        barWidth: number,
+        padding: { top: number; left: number; right: number; bottom: number },
+
+        xScale: any,
+        yScale: any,
+
+        dataSingle: INgxDateValue[],
+        dataSeries: INgxDateValueSeries[],
+        xDomain: [Date, Date],
+        yDomain: [number, number]
+      ) => void)
+    | undefined;
+
   @Input() formatDateFunction: ((date: Date) => string) | undefined;
 
   @Input() fixedXTicks: Date[] | undefined;
@@ -137,7 +158,36 @@ export class NgxDateBarChartComponent implements OnInit {
       this.calculateBarWidth();
       this.initScales();
       this.drawAxis();
+      this.drawCustomDrawing();
     });
+  }
+
+  /**
+   * special method to draw custom stuff with d3 while having full access to d3 params
+   * you can draw anywhere you want or you use the predefined <g></g> spaces, which
+   * you can select via class-names
+   *  'custom-before-rendering'
+   *  'custom-between-bar-and-axis'
+   *  'custom-after-rendering'
+   */
+  drawCustomDrawing(): void {
+    if (this.customDrawing !== undefined) {
+      this.customDrawing(
+        this.selectChart(),
+        this.fullWidth,
+        this.fullHeight,
+        this.chartHeight,
+        this.chartWidth,
+        this.barWidth,
+        this.padding,
+        this.xScale,
+        this.yScale,
+        this.processedData,
+        this.processedDataSeries,
+        this.xDomain,
+        this.yDomain
+      );
+    }
   }
 
   // mock method

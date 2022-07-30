@@ -6,7 +6,7 @@
     Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
-.overflow-wrapper > div {
+.overflow-wrapper>div {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -15,11 +15,13 @@
 }
 
 .chart-container {
-  width: 60vw;
   height: 50vh;
 }
 
-p {
+p, .chart-container {
   width: 60vw;
+}
+
+.intro {
   margin-top: 10%;
 }

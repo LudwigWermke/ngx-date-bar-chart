@@ -35,10 +35,10 @@ export class AppComponent {
 
   private initBasicData(): void {
     const data: INgxDateValue[] = [];
-    for (let i = 0; i < 10; ++i) {
+    for (let i = 0; i < 11; ++i) {
       const date = new Date();
       date.setDate(date.getDate() + i);
-      data.push({ date, value: 5 + i * i });
+      data.push({ date, value: Math.random() * 100 + 50 });
     }
     this.basicData = data;
   }
@@ -57,4 +57,55 @@ export class AppComponent {
     const options: any = { month: '2-digit', day: '2-digit', year: '2-digit' };
     return date.toLocaleDateString('de-DE', options);
   }
+
+  public customDrawing = (
+    boundingSvgSelection: any,
+
+    fullWidth: number,
+    fullHeight: number,
+    chartHeight: number,
+    chartWidth: number,
+    barWidth: number,
+    padding: { top: number; left: number; right: number; bottom: number },
+
+    xScale: any,
+    yScale: any,
+
+    dataSingle: INgxDateValue[],
+    dataSeries: INgxDateValueSeries[],
+    xDomain: [Date, Date],
+    yDomain: [number, number]
+  ) => {
+    // lazy removal of all stuff (so it won't get rendered twice, there are better ways,
+    // but for the demo it's fine
+    boundingSvgSelection
+      .selectAll('.custom-after-rendering')
+      .selectAll('*')
+      .remove();
+
+    /*
+     *  append a red line
+     *  use the other g containers to render the line on the level you want
+     *  'custom-before-rendering'
+     *  'custom-between-bar-and-axis'
+     *  'custom-after-rendering'
+     */
+    boundingSvgSelection
+      .selectAll('.custom-after-rendering')
+      .append('line')
+      .style('stroke', 'red')
+      .style('stroke-width', 3)
+      .attr('x1', padding.left)
+      .attr('y1', padding.top)
+      .attr(
+        'x2',
+        padding.left +
+          xScale(dataSingle[Math.floor(dataSingle.length / 2)].date)
+      )
+      .attr(
+        'y2',
+        padding.top +
+          yScale(dataSingle[Math.floor(dataSingle.length / 2)].value)
+      );
+  };
 }
