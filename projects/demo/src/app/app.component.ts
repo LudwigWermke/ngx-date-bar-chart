@@ -1,7 +1,7 @@
 import { Component, QueryList, ViewChildren } from '@angular/core';
 import { INgxDateValue } from 'projects/ngx-date-bar-chart/src/lib/interfaces/date-value.interface';
 import { INgxDateValueSeries } from '../../../ngx-date-bar-chart/src/lib/interfaces/date-value-series.interface';
-import { NgxDateBarChartComponent } from 'ngx-date-bar-chart';
+import { NgxDateBarChartComponent } from '../../../ngx-date-bar-chart/src/lib/ngx-date-bar-chart.component';
 import { LegendPosition } from 'projects/ngx-date-bar-chart/src/lib/enums/legend-position.enum';
 
 @Component({
