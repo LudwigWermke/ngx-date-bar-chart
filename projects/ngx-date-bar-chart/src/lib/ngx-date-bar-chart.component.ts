@@ -150,7 +150,7 @@ export class NgxDateBarChartComponent implements OnInit {
 
     this.transformXAxisLabel = `translate(${
       this.padding.left + this.chartWidth / 2
-    }, ${this.chartHeight + this.padding.top + 40})`;
+    }, ${this.fullHeight - 4})`;
 
     this.transformYAxisLabel = `rotate(-90) translate(${
       -this.chartHeight / 2 + this.padding.top
