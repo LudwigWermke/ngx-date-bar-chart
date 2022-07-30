@@ -20,16 +20,33 @@ export class HelperService {
       );
     }
 
-    const min =
-      manualXMin === undefined ? new Date(processedData[0].date) : manualXMin;
-    min.setTime(min.getTime() - 12 * 3600 * 1000);
+    const min = this.getXMin(processedData, manualXMin);
+    const max = this.getXMax(processedData, manualXMax);
 
-    const max =
-      manualXMax === undefined
-        ? new Date(processedData[processedData.length - 1].date)
-        : manualXMax;
+    min.setTime(min.getTime() - 12 * 3600 * 1000);
     max.setTime(max.getTime() + 12 * 3600 * 1000);
+
     return [min, max];
+  }
+
+  private getXMin(
+    processedData: INgxDateValue[] | INgxDateValueSeries[],
+    manualXMin: Date | undefined
+  ): Date {
+    if (manualXMin !== undefined) {
+      return new Date(manualXMin);
+    }
+    return new Date(processedData[0].date);
+  }
+
+  private getXMax(
+    processedData: INgxDateValue[] | INgxDateValueSeries[],
+    manualXMax: Date | undefined
+  ): Date {
+    if (manualXMax !== undefined) {
+      return new Date(manualXMax);
+    }
+    return new Date(processedData[processedData.length - 1].date);
   }
 
   private getMin(
