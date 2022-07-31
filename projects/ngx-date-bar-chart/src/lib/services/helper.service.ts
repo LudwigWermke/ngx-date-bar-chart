@@ -9,113 +9,46 @@ import { INgxDateValueSeries } from '../interfaces/date-value-series.interface';
 export class HelperService {
   constructor(private preProcessorService: PreProcessorService) {}
 
+  // region: domains
+
   public getXDomain(
     processedData: INgxDateValue[] | INgxDateValueSeries[],
     manualXMin: Date | undefined,
     manualXMax: Date | undefined
   ): [Date, Date] {
-    if (!processedData?.length) {
-      throw new RangeError(
-        'needs at least one value to properly set up chart.'
-      );
-    }
+    this.assertSomeData(processedData);
+    const min = this.getXMin(processedData, manualXMin);
+    const max = this.getXMax(processedData, manualXMax);
 
-    const min =
-      manualXMin === undefined ? new Date(processedData[0].date) : manualXMin;
+    // some padding left and right
     min.setTime(min.getTime() - 12 * 3600 * 1000);
-
-    const max =
-      manualXMax === undefined
-        ? new Date(processedData[processedData.length - 1].date)
-        : manualXMax;
     max.setTime(max.getTime() + 12 * 3600 * 1000);
+
     return [min, max];
-  }
-
-  private getMin(
-    data: INgxDateValue[],
-    manualYMin: number | undefined
-  ): number {
-    if (manualYMin !== undefined) {
-      return manualYMin;
-    }
-
-    if (data.length === 1) {
-      return data[0].value - 10;
-    }
-    return Math.min(...data.map((c) => c.value));
   }
 
   public getYDomain(
-    processedData: INgxDateValue[],
+    processedData: INgxDateValue[] | INgxDateValueSeries[],
     manualYMin: number | undefined,
-    manualYMax: number | undefined
+    manualYMax: number | undefined,
+    stacked: boolean
   ): [number, number] {
-    if (!processedData?.length) {
-      throw new RangeError(
-        'needs at least one value to properly set up chart.'
-      );
-    }
-
+    this.assertSomeData(processedData);
     return [
-      this.getMin(processedData, manualYMin),
-      this.getMax(processedData, manualYMax),
+      this.getYMin(processedData, manualYMin, stacked),
+      this.getYMax(processedData, manualYMax, stacked),
     ];
   }
 
-  private sum(entry: INgxDateValueSeries): number {
-    let sum = 0;
-    for (const value of entry.values) {
-      sum += value;
-    }
-    return sum;
-  }
-
-  public getYDomainSeries(
-    processedData: INgxDateValueSeries[],
-    stacked: boolean,
-    manualYMin: number | undefined,
-    manualYMax: number | undefined
-  ): [number, number] {
-    if (!processedData?.length) {
-      throw new RangeError(
-        'needs at least one value to properly set up chart.'
-      );
-    }
-
-    const min = stacked
-      ? 0
-      : manualYMin !== undefined
-      ? manualYMin
-      : Math.min(
-          ...processedData.map((d) => (stacked ? 0 : Math.min(...d.values)))
-        );
-
-    const max =
-      manualYMax !== undefined
-        ? manualYMax
-        : 1.1 *
-          Math.max(
-            ...processedData.map((d) =>
-              stacked ? this.sum(d) : Math.max(...d.values)
-            )
-          );
-
-    return [min, max];
-  }
+  // region bar-width, days Diff and x ticks
 
   public getBarWidth(
     chartWidth: number,
     spacingPercentage: number,
-    daysDiff: number
+    xDomain: [Date, Date]
   ): number {
+    const daysDiff = this.daysDiff(xDomain);
     return ((1 - spacingPercentage) * chartWidth) / daysDiff;
-  }
-
-  public daysDiff(xDomain: [Date, Date]): number {
-    const start = xDomain[0];
-    const end = xDomain[1];
-    return (end.getTime() - start.getTime()) / 24 / 3600 / 1000;
   }
 
   public createTicksBasedOnWidth(
@@ -139,16 +72,106 @@ export class HelperService {
     return dates;
   }
 
-  private getMax(
-    processedData: INgxDateValue[],
-    manualYMax: number | undefined
+  // region: min/max
+
+  private getXMin(
+    processedData: INgxDateValue[] | INgxDateValueSeries[],
+    manualXMin: Date | undefined
+  ): Date {
+    if (manualXMin !== undefined) {
+      return new Date(manualXMin);
+    }
+    return new Date(processedData[0].date);
+  }
+
+  private getXMax(
+    processedData: INgxDateValue[] | INgxDateValueSeries[],
+    manualXMax: Date | undefined
+  ): Date {
+    if (manualXMax !== undefined) {
+      return new Date(manualXMax);
+    }
+    return new Date(processedData[processedData.length - 1].date);
+  }
+
+  private isSeries(
+    data: INgxDateValue[] | INgxDateValueSeries[]
+  ): data is INgxDateValueSeries[] {
+    return (data as INgxDateValueSeries[])[0].values !== undefined;
+  }
+
+  private getYMin(
+    data: INgxDateValue[] | INgxDateValueSeries[],
+    manualYMin: number | undefined,
+    stacked: boolean
+  ): number {
+    if (stacked) {
+      return 0;
+    }
+
+    if (manualYMin !== undefined) {
+      return manualYMin;
+    }
+
+    if (!this.isSeries(data)) {
+      if (data.length === 1) {
+        return data[0].value - 10;
+      }
+      return Math.min(...data.map((c) => c.value));
+    }
+
+    return Math.min(...data.map((d) => Math.min(...d.values)));
+  }
+
+  private getYMax(
+    data: INgxDateValue[] | INgxDateValueSeries[],
+    manualYMax: number | undefined,
+    stacked: boolean
   ) {
     if (manualYMax !== undefined) {
       return manualYMax;
     }
-    if (processedData.length === 1) {
-      return processedData[0].value + 5;
+
+    if (!this.isSeries(data)) {
+      if (data.length === 1) {
+        return data[0].value + 5;
+      }
+      return 1.1 * Math.max(...data.map((c) => c.value));
     }
-    return 1.1 * Math.max(...processedData.map((c) => c.value));
+
+    return (
+      1.1 *
+      Math.max(
+        ...data.map((d) =>
+          stacked ? this.sumPerDay(d) : Math.max(...d.values)
+        )
+      )
+    );
+  }
+
+  // region: small helper functions
+
+  private sumPerDay(entry: INgxDateValueSeries): number {
+    let sum = 0;
+    for (const value of entry.values) {
+      sum += value;
+    }
+    return sum;
+  }
+
+  private assertSomeData(
+    processedData: INgxDateValue[] | INgxDateValueSeries[]
+  ): void {
+    if (!processedData?.length) {
+      throw new RangeError(
+        'needs at least one value to properly set up chart.'
+      );
+    }
+  }
+
+  private daysDiff(xDomain: [Date, Date]): number {
+    const start = xDomain[0];
+    const end = xDomain[1];
+    return (end.getTime() - start.getTime()) / 24 / 3600 / 1000;
   }
 }
