@@ -1,16 +1,28 @@
 {
   "name": "ngx-date-bar-chart",
-  "version": "0.0.1",
+  "description": "A clean, responsive, and easy to use bar chart specialised in dealing with dates on a 'day'-interval.",
+  "version": "1.0.0",
   "peerDependencies": {
     "@angular/common": "14.0.0",
     "@angular/core": "14.0.0",
     "d3": "7.4.5"
   },
+  "keywords": [
+    "chart",
+    "bar chart",
+    "date",
+    "time",
+    "angular",
+    "responsive"
+  ],
+  "author": "Ludwig Wermke <ludwig.wermke@posteo.de>, Ömer Mutluel <oemer.mutluel@gmail.com>",
+  "license": "MIT",
   "dependencies": {
     "tslib": "^2.3.0"
   },
   "devDependencies": {
     "@types/d3": "7.4.0",
     "prettier": "^2.7.1"
-  }
+  },
+  "homepage": "https://github.com/LudwigWermke/ngx-date-bar-chart"
 }

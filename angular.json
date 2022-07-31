@@ -12,8 +12,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "project": "projects/ngx-date-bar-chart/ng-package.json",
-            "preserveSymlinks": true
+            "project": "projects/ngx-date-bar-chart/ng-package.json"
           },
           "configurations": {
             "production": {
