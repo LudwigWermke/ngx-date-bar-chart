@@ -1,6 +1,6 @@
 <div class="overflow-wrapper">
   <div>
-    <p>
+    <p class="intro">
       This shows basic examples for different chart types and various
       configurations. Change the size of your viewport to see the resizing in
       action. If you need to manually resize, see the corresponding ts code to
@@ -17,6 +17,29 @@
           [yAxisLabel]="'values'"
           [yMin]="0"
           [barSpacingPercentage]="0.1"
+        ></ngx-date-bar-chart>
+      </div>
+    </div>
+
+    <div>
+      <h2>1.1 Basic Chart</h2>
+      <p>
+        This is the same chart as above, but uses the custom drawing function to
+        draw a line that goes exactly from the top let corner to the x and
+        y-coordinates of the charts value in the middle. To see, what you can do
+        with this powerful function, check out the customDrawing function in
+        app.component.ts :)
+      </p>
+      <div class="chart-container">
+        <ngx-date-bar-chart
+          [colors]="['navy', 'dodgerblue']"
+          [data]="basicData"
+          [legendLabels]="['this is some data']"
+          [xAxisLabel]="'dates'"
+          [yAxisLabel]="'values'"
+          [yMin]="0"
+          [barSpacingPercentage]="0.1"
+          [customDrawing]="customDrawing"
         ></ngx-date-bar-chart>
       </div>
     </div>
