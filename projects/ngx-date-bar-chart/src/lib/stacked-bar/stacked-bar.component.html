@@ -1,10 +1,24 @@
-<svg:rect
-        *ngFor="let value of entry?.values || []; index as i"
-        [attr.x]="x"
-        [attr.y]="y(i) "
-        [attr.height]="height(i)"
-        [attr.width]="barWidth"
-        [attr.fill]="color(i)"
-        [attr.rx]="radius"
-        [attr.ry]="radius"
-></svg:rect>
+<svg:g>
+  <clipPath [id]="getClipId()">
+    <rect
+      [attr.x]="x"
+      [attr.y]="maxY"
+      [attr.height]="2 * (maxHeight + radius)"
+      [attr.width]="barWidth"
+      [attr.rx]="radius"
+      [attr.ry]="radius"
+    ></rect>
+  </clipPath>
+
+  <!-- just drop the to be clipped inside a g, add the clip url, and we are good to go -->
+  <g [attr.clip-path]="rounded ? getClipUrl() : null">
+    <svg:rect
+      *ngFor="let value of entry?.values || []; index as i"
+      [attr.x]="x"
+      [attr.y]="y(i)"
+      [attr.height]="height(i)"
+      [attr.width]="barWidth"
+      [attr.fill]="color(i)"
+    ></svg:rect>
+  </g>
+</svg:g>

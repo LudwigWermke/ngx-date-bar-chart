@@ -21,12 +21,13 @@ export class StackedBarComponent implements OnInit {
     }
     this.internalColors = colors;
   }
+  @Input() index = 1;
+
+  private internalId = `ngx-date-bar-chart-bar-${Math.round(
+    Math.random() * 1_000_000
+  )}-${this.index}`;
 
   private internalColors: string[] = ['green'];
-
-  private get numberOfEntries() {
-    return this.entry?.values?.length || 1; // less than 1 will not be rendered
-  }
 
   public color(index: number): string {
     return this.internalColors[index % this.internalColors.length];
@@ -75,6 +76,17 @@ export class StackedBarComponent implements OnInit {
     return this.getY(sum);
   }
 
+  public get maxY(): number {
+    let sum = 0;
+    this.values.forEach((c) => (sum += c));
+    return this.getY(sum);
+  }
+
+  public get maxHeight(): number {
+    const diff = this.maxY - this.getY(this.yDomain[1]);
+    return this.getY(this.yDomain[0]) - diff;
+  }
+
   public get radius(): number {
     if (!this.rounded) {
       return 0;
@@ -83,5 +95,13 @@ export class StackedBarComponent implements OnInit {
       return this.barRadiusFunction(this.barWidth);
     }
     return Math.min(this.barWidth > 1 ? this.barWidth / 3 : 1, 20);
+  }
+
+  public getClipId(): string {
+    return `${this.internalId}-bar-clip-path`;
+  }
+
+  public getClipUrl(): string {
+    return `url(#${this.getClipId()})`;
   }
 }

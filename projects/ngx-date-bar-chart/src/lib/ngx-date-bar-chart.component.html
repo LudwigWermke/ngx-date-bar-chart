@@ -1,10 +1,12 @@
-<ng-container
-  [ngTemplateOutlet]="legendTemplate"
-  *ngIf="legendLabels?.length && legendPosition.includes('top')">
-</ng-container>
-
 <div [id]="internalId" class="ngx-date-bar-chart" (window:resize)="resize()">
+  <ng-container
+    [ngTemplateOutlet]="legendTemplate"
+    *ngIf="legendLabels?.length && legendPosition.includes('top')"
+  >
+  </ng-container>
   <svg>
+    <g class="custom-before-rendering"></g>
+
     <!-- single bars -->
     <g *ngIf="processedData && !!yScale && !!xScale">
       <g
@@ -26,74 +28,89 @@
     <!-- bar series -->
     <g *ngIf="processedDataSeries && !!yScale && !!xScale && !isStacked">
       <g
-              [attr.transform]="transformYAxis"
-              *ngFor="let entry of processedDataSeries; index as i"
-              ngx-date-bar-series-bar
-              [entry]="entry"
-              [xScale]="xScale"
-              [yScale]="yScale"
-              [yDomain]="yDomain"
-              [barWidth]="barWidth"
-              [indexOfEntry]="i"
-              [rounded]="rounded"
-              [barRadiusFunction]="barRadiusFunction"
-              [colors]="colors"
-              [innerSpacing]="barSeriesInnersSpacing"
+        [attr.transform]="transformYAxis"
+        *ngFor="let entry of processedDataSeries; index as i"
+        ngx-date-bar-series-bar
+        [entry]="entry"
+        [xScale]="xScale"
+        [yScale]="yScale"
+        [yDomain]="yDomain"
+        [barWidth]="barWidth"
+        [indexOfEntry]="i"
+        [rounded]="rounded"
+        [barRadiusFunction]="barRadiusFunction"
+        [colors]="colors"
+        [innerSpacing]="barSeriesInnersSpacing"
       ></g>
     </g>
 
     <!-- stacked series -->
     <g *ngIf="processedDataSeries && !!yScale && !!xScale && isStacked">
       <g
-              [attr.transform]="transformYAxis"
-              *ngFor="let entry of processedDataSeries; index as i"
-              ngx-date-bar-stacked-bar
-              [entry]="entry"
-              [xScale]="xScale"
-              [yScale]="yScale"
-              [yDomain]="yDomain"
-              [barWidth]="barWidth"
-              [indexOfEntry]="i"
-              [rounded]="rounded"
-              [barRadiusFunction]="barRadiusFunction"
-              [colors]="colors"
+        [attr.transform]="transformYAxis"
+        *ngFor="let entry of processedDataSeries; index as i"
+        ngx-date-bar-stacked-bar
+        [entry]="entry"
+        [xScale]="xScale"
+        [yScale]="yScale"
+        [yDomain]="yDomain"
+        [barWidth]="barWidth"
+        [indexOfEntry]="i"
+        [rounded]="rounded"
+        [barRadiusFunction]="barRadiusFunction"
+        [colors]="colors"
       ></g>
     </g>
+
+    <g class="custom-between-bar-and-axis"></g>
 
     <g class="axis x-axis" [attr.transform]="transformXAxis"></g>
     <g class="axis y-axis" [attr.transform]="transformYAxis"></g>
 
-    <text *ngIf="xAxisLabel"
-          text-anchor="middle"
-          alignment-baseline="hanging"
-          dominant-baseline="hanging"
-          font-weight="bold"
-          font-size="1.3em"
-          [attr.transform]="getXAxisLabelPosition()"
-    >{{xAxisLabel}}</text>
+    <text
+      *ngIf="xAxisLabel"
+      text-anchor="middle"
+      alignment-baseline="bottom"
+      dominant-baseline="bottom"
+      font-weight="bold"
+      font-size="1.2em"
+      [attr.transform]="transformXAxisLabel"
+    >
+      {{ xAxisLabel }}
+    </text>
 
-    <text *ngIf="yAxisLabel"
-          text-anchor="middle"
-          alignment-baseline="hanging"
-          dominant-baseline="hanging"
-          font-weight="bold"
-          font-size="1.3em"
-          [attr.transform]="getYAxisLabelPosition()"
-    >{{yAxisLabel}}</text>
+    <text
+      *ngIf="yAxisLabel"
+      text-anchor="middle"
+      alignment-baseline="hanging"
+      dominant-baseline="hanging"
+      font-weight="bold"
+      font-size="1.2em"
+      [attr.transform]="transformYAxisLabel"
+    >
+      {{ yAxisLabel }}
+    </text>
 
+    <g class="custom-after-rendering"></g>
   </svg>
+  <ng-container
+    [ngTemplateOutlet]="legendTemplate"
+    *ngIf="legendLabels?.length && legendPosition.includes('bottom')"
+  >
+  </ng-container>
 </div>
-
-<ng-container
-  [ngTemplateOutlet]="legendTemplate"
-  *ngIf="legendLabels?.length && legendPosition.includes('bottom')">
-</ng-container>
 
 <ng-template #legendTemplate>
   <div class="legend" [ngClass]="getFlexClass(legendPosition)">
     <div class="legend-item" *ngFor="let item of legendLabels; index as i">
-      <div class="legend-square" [ngStyle]="{'background-color': colors[i], 'font-size': fontSizeTicks}"></div>
-      <span>{{item}}</span>
+      <div
+        class="legend-square"
+        [ngStyle]="{
+          'background-color': colors[i],
+          'font-size': fontSizeTicks
+        }"
+      ></div>
+      <span>{{ item }}</span>
     </div>
   </div>
 </ng-template>
