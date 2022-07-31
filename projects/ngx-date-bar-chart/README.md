@@ -1,6 +1,9 @@
 # About ngx-date-bar-chart
 A clean, responsive, and easy to use bar chart specialised in dealing with dates on a 'day'-interval.
 
+## Demo
+[View demo on stackblitz] (https://stackblitz.com/edit/angular-tyzwtg)
+
 ## Chart types
 - simple bar chart with one bar per day
 - bar series with multiple bars per day
