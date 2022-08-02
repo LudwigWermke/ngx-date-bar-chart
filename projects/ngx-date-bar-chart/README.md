@@ -6,8 +6,8 @@ We also added a really cool feature, where you have access to all parameters of 
 
 ## demp and code repo
 
-- for a quick demo, check out [stackblitz] (https://stackblitz.com/edit/angular-tyzwtg)
-- the code is located [here] (https://github.com/LudwigWermke/ngx-date-bar-chart), including a demo project (that is also on stackblitz):
+- for a quick demo, check out [stackblitz](https://stackblitz.com/edit/angular-tyzwtg)
+- code: [github](https://github.com/LudwigWermke/ngx-date-bar-chart), including a demo project (the same as on stackblitz):
 
 ## Chart types
 
@@ -103,15 +103,15 @@ Use these inputs to style the chart the way you want it
 
 `data: INgxDateValue[] | INgxDateValueSeries[]` aka the 'input', has to be set
 
-`stacked` whether the chart is stacked or not
+`stacked: boolean` whether the chart is stacked or not
 
 ## bars, padding, and colors
 
-`barSpacingPercentage` amount of space that is distributed between the bars as space (range from 0 to 1)
+`barSpacingPercentage: number` amount of space that is distributed between the bars as space (range from 0 to 1)
 
-`barSeriesInnersSpacing` only relevant for series; amount of space that is distributed between the bars for each date
+`barSeriesInnersSpacing: number` only relevant for series; amount of space that is distributed between the bars for each date
 
-`rounded`: whether the bars are rounded (defaults to true)
+`rounded: boolean`: whether the bars are rounded (defaults to true)
 
 `barRadiusFunction: ((barWidth: number) => number)` use this, if you want your bar-radius to be custom
 
@@ -154,7 +154,7 @@ use this to format the x-axis dates the way you want them
 
 ## custom drawings
 
-````
+```
 customDrawing: ((
   boundingSvgSelection: any,
   fullWidth: number,
@@ -171,10 +171,12 @@ customDrawing: ((
   dataSeries: INgxDateValueSeries[],
   xDomain: [Date, Date],
   yDomain: [number, number]
-) => void```
-With this method you can draw yourself on the chart. Having access to the chart-width and height is an awesome possibilty to very easily e.g. add a custom trendline. E.g. the following code draws a line from the top left corner, to the top of the bar that is exactly in the middle. This makes no sense, but it demonstrates how easdily you can adjust this chart to your own needs:
-````
+) => void
+```
 
+With this method you can draw yourself on the chart. Having access to the chart-width and height is an awesome possibilty to very easily e.g. add a custom trendline. E.g. the following code draws a line from the top left corner, to the top of the bar that is exactly in the middle. This makes no sense, but it demonstrates how easdily you can adjust this chart to your own needs:
+
+```
 customDrawing = (
 boundingSvgSelection: any,
 
@@ -226,7 +228,6 @@ boundingSvgSelection
       );
 
 };
+```
 
-```
 You can pass this function as an input like this without having to mess with the underlying code or cryptically trying to manipulate with d3: `[customDrawing]="customDrawing"`
-```
