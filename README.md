@@ -175,7 +175,7 @@ customDrawing: ((
 ) => void
 ```
 
-With this method you can draw on the chart yourself. Having access to the chart-width and height is an awesome possibility to very easily e.g. add a custom trendlinie. E.g. the following code draws a line from the top left corner, to the top of the bar that is exactly in the middle. This makes no sense, but it demonstrates how easily you can adjust this chart to your own needs:
+With this method you can draw on the chart yourself. Having access to the chart-width and height is an awesome possibility to very easily e.g. add a custom trendline. E.g. the following code draws a line from the top left corner, to the top of the bar that is exactly in the middle. This makes no sense, but it demonstrates how easily you can adjust this chart to your own needs:
 
 ```
 customDrawing = (
