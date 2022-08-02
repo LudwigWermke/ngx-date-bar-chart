@@ -190,7 +190,6 @@ export class NgxDateBarChartComponent implements OnInit {
     }
   }
 
-  // mock method
   private calculateTransformations() {
     // translates axis to left and bottom
     this.transformXAxis = `translate(${this.padding.left},${
