@@ -9,9 +9,6 @@ We also added a really cool feature, where you have access to all parameters of 
 - for a quick demo, check out [stackblitz](https://stackblitz.com/edit/angular-tyzwtg)
 - code: [github](https://github.com/LudwigWermke/ngx-date-bar-chart), including a demo project (the same as on stackblitz):
 
-## Demo
-[View demo on stackblitz] (https://stackblitz.com/edit/angular-tyzwtg)
-
 ## Chart types
 
 - simple bar chart with one bar per day
