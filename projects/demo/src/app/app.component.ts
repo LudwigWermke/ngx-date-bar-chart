@@ -80,7 +80,7 @@ export class AppComponent {
     // but for the demo it's fine
     boundingSvgSelection
       .selectAll('.custom-after-rendering')
-      .selectAll('*')
+      .selectAll('line')
       .remove();
 
     /*
