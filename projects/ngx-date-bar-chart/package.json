@@ -1,7 +1,7 @@
 {
   "name": "ngx-date-bar-chart",
   "description": "A clean, responsive, and easy to use bar chart specialised in dealing with dates on a 'day'-interval.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "peerDependencies": {
     "@angular/common": "14.0.0",
     "@angular/core": "14.0.0",
