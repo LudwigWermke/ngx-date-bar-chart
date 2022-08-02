@@ -4,10 +4,10 @@ Since building charts with dates on the x-axis (on a day-intervall) is a lot of 
 <br>
 We also added a really cool new feature, where you have access to all parameters of our chart from the outside, which allows you to draw individual stuff with d3 directly on the chart. This is helpful, because this was previously a really complex task and required you to sometimes hack the code. For this feature, just scroll down to the custom drawings section at the very end.
 
-## demp and code repo
+## Demo and code repo
 
 - for a quick demo, check out [stackblitz](https://stackblitz.com/edit/angular-tyzwtg)
-- otherwise just clone the code and head and build it yourself :) PRs are always welcome :)
+- otherwise, just clone the code and head and build it yourself :) PRs are always welcome :)
 - [npm](https://www.npmjs.com/package/ngx-date-bar-chart)
 
 ## Chart types
@@ -61,7 +61,7 @@ and build the demo :)
     }
 ```
 
-2. Use the chart in you html-template and maybe add some nice colors
+2. Use the chart in you html template and maybe add some nice colors
 
 ```
 <ngx-date-bar-chart
@@ -175,7 +175,7 @@ customDrawing: ((
 ) => void
 ```
 
-With this method you can draw yourself on the chart. Having access to the chart-width and height is an awesome possibilty to very easily e.g. add a custom trendline. E.g. the following code draws a line from the top left corner, to the top of the bar that is exactly in the middle. This makes no sense, but it demonstrates how easdily you can adjust this chart to your own needs:
+With this method you can draw on the chart yourself. Having access to the chart-width and height is an awesome possibility to very easily e.g. add a custom trendlinie. E.g. the following code draws a line from the top left corner, to the top of the bar that is exactly in the middle. This makes no sense, but it demonstrates how easily you can adjust this chart to your own needs:
 
 ```
 customDrawing = (
