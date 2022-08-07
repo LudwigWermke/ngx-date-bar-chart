@@ -80,4 +80,26 @@ describe('HelperService', () => {
       service.getXDomain(demoDataSingle, manualXMin, manualXMin)
     ).toThrowError('min x-value must be at least one day before max');
   });
+
+  it('should return the correct y domains', () => {
+    let yDomain = service.getYDomain(
+      demoDataSingle,
+      undefined,
+      undefined,
+      false
+    );
+
+    expect(Math.abs(yDomain[0] - 91)).toBeLessThan(1e-10);
+    expect(Math.abs(yDomain[1] - 110)).toBeLessThan(1e-10);
+
+    yDomain = service.getYDomain(demoDataSingle, -10, 200, false);
+    expect(Math.abs(yDomain[0] + 10)).toBeLessThan(1e-10);
+    expect(Math.abs(yDomain[1] - 200)).toBeLessThan(1e-10);
+
+    expect(() =>
+      service.getYDomain(demoDataSingle, -10, -10, false)
+    ).toThrowError(
+      'max y value must at least be 1e-10 bigger than min y value'
+    );
+  });
 });

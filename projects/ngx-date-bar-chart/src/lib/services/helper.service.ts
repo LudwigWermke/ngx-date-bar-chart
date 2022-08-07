@@ -38,10 +38,17 @@ export class HelperService {
     stacked: boolean
   ): [number, number] {
     this.assertSomeData(processedData);
-    return [
-      this.getYMin(processedData, manualYMin, stacked),
-      this.getYMax(processedData, manualYMax, stacked),
-    ];
+
+    const min = this.getYMin(processedData, manualYMin, stacked);
+    const max = this.getYMax(processedData, manualYMax, stacked);
+
+    if (max - min < 1e-10) {
+      throw new RangeError(
+        'max y value must at least be 1e-10 bigger than min y value'
+      );
+    }
+
+    return [min, max];
   }
 
   // region bar-width, days Diff and x ticks
