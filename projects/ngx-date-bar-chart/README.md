@@ -46,17 +46,17 @@ You can check out more examples in the demo project, for this just head over to 
 1. Set up some data
 
 ```
-    const data: INgxDateValue[] = [];
-    const today = new Date();
+const data: INgxDateValue[] = [];
+const today = new Date();
 
-    for (let i = 0; i < 15; ++i) {
-      const date = new Date(today);
-      date.setDate(today.getDate() + i);
-      data.push({
-        new Date(date),
-        value: i * i,
-      });
-    }
+for (let i = 0; i < 15; ++i) {
+  const date = new Date(today);
+  date.setDate(today.getDate() + i);
+  data.push({
+    new Date(date),
+    value: i * i,
+  });
+}
 ```
 
 2. Use the chart in you html-template and maybe add some nice colors
@@ -71,17 +71,17 @@ You can check out more examples in the demo project, for this just head over to 
 3. If you want multiple values per day just change the type of data to 'INgxDateValueSeries[]' and you are good to go:
 
 ```
-   const data: INgxDateValueSeries[] = [];
-   const today = new Date();
+const data: INgxDateValueSeries[] = [];
+const today = new Date();
 
-    for (let i = 0; i < 15; ++i) {
-      const date = new Date(today);
-      date.setDate(today.getDate() + i);
-      data.push({
-        new Date(date),
-        values: [i, 2*i, 3 * i],
-      });
-    }
+for (let i = 0; i < 15; ++i) {
+  const date = new Date(today);
+  date.setDate(today.getDate() + i);
+  data.push({
+    new Date(date),
+    values: [i, 2*i, 3 * i],
+  });
+}
 ```
 
 4. If you want your data stacked, just set the stacked attribute in the html-template.
