@@ -30,6 +30,12 @@ describe('HelperService', () => {
     expect(service).toBeTruthy();
   });
 
+  it('should throw an error, if there is to few data', () => {
+    expect(() => service.getXDomain([], manualXMin, manualXMin)).toThrowError(
+      'needs at least one value to properly set up chart.'
+    );
+  });
+
   it('should return the correct x domains', () => {
     let xDomain = service.getXDomain(demoDataSingle, undefined, undefined);
     let min = service.preProcessorService.toStartOfDay(demoDataSingle[0].date);

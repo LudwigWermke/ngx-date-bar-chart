@@ -162,7 +162,7 @@ export class HelperService {
 
   // region: small helper functions
 
-  public sumPerDay(entry: INgxDateValueSeries): number {
+  private sumPerDay(entry: INgxDateValueSeries): number {
     let sum = 0;
     for (const value of entry.values) {
       sum += value;
@@ -170,7 +170,7 @@ export class HelperService {
     return sum;
   }
 
-  public assertSomeData(
+  private assertSomeData(
     processedData: INgxDateValue[] | INgxDateValueSeries[]
   ): void {
     if (!processedData?.length) {
@@ -180,7 +180,7 @@ export class HelperService {
     }
   }
 
-  public daysDiff(xDomain: [Date, Date]): number {
+  private daysDiff(xDomain: [Date, Date]): number {
     const start = xDomain[0];
     const end = xDomain[1];
     return (end.getTime() - start.getTime()) / 24 / 3600 / 1000;
