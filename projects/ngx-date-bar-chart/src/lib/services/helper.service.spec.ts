@@ -15,7 +15,7 @@ describe('HelperService', () => {
     const date = new Date();
     date.setDate(date.getDate() + i);
     demoDataSingle.push({ date, value: 100 - i });
-    demoDataSeries.push({ date, values: [i, 10, 100 - i] });
+    demoDataSeries.push({ date, values: [i + 5, 10, 100 - i] });
   }
 
   beforeEach(() => {
@@ -101,5 +101,21 @@ describe('HelperService', () => {
     ).toThrowError(
       'max y value must at least be 1e-10 bigger than min y value'
     );
+  });
+
+  it('should return the correct y domains for stacked series', () => {
+    let yDomain = service.getYDomain(
+      demoDataSeries,
+      undefined,
+      undefined,
+      false
+    );
+
+    expect(Math.abs(yDomain[0] - 5)).toBeLessThan(1e-10);
+    expect(Math.abs(yDomain[1] - 110)).toBeLessThan(1e-10);
+
+    yDomain = service.getYDomain(demoDataSeries, undefined, undefined, true);
+    expect(Math.abs(yDomain[0])).toBeLessThan(1e-10);
+    expect(Math.abs(yDomain[1] - 1.1 * 115)).toBeLessThan(1e-10);
   });
 });
