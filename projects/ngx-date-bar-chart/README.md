@@ -17,7 +17,7 @@ We also added a really cool feature (see 'customDrawing'), where you have access
 
 ## Installation
 
-```
+```bash
 npm install ngx-date-bar-chart
 ```
 
@@ -25,7 +25,7 @@ npm install ngx-date-bar-chart
 
 In your module add NgxDateBarChartModule to the imports:
 
-```
+```ts
 @NgModule({
   declarations: [
     AppComponent
@@ -45,7 +45,7 @@ You can check out more examples in the demo project, for this just head over to 
 
 1. Set up some data
 
-```
+```ts
 const data: INgxDateValue[] = [];
 const today = new Date();
 
@@ -61,7 +61,7 @@ for (let i = 0; i < 15; ++i) {
 
 2. Use the chart in you html-template and maybe add some nice colors
 
-```
+```html
 <ngx-date-bar-chart
   [colors]="['navy', 'dodgerblue']"
   [data]="data"
@@ -70,7 +70,7 @@ for (let i = 0; i < 15; ++i) {
 
 3. If you want multiple values per day just change the type of data to 'INgxDateValueSeries[]' and you are good to go:
 
-```
+```ts
 const data: INgxDateValueSeries[] = [];
 const today = new Date();
 
@@ -86,7 +86,7 @@ for (let i = 0; i < 15; ++i) {
 
 4. If you want your data stacked, just set the stacked attribute in the html-template.
 
-```
+```html
 <ngx-date-bar-chart
   [colors]="['navy', 'dodgerblue']"
   [data]="data"
@@ -153,7 +153,7 @@ use this to format the x-axis dates the way you want them
 
 ## custom drawings
 
-```
+```ts
 customDrawing: ((
   boundingSvgSelection: any,
   fullWidth: number,
@@ -179,7 +179,7 @@ Having access to e.g. the chart-width and chart-height enables you to draw a cus
 <br><br>
 To illustrate this functionality, the following code draws a line from the top left corner of the chart, to the top of the bar that is exactly in the middle. This makes no sense, but it demonstrates, how simple it is to add your custom stuff.
 
-```
+```ts
 customDrawing = (
 boundingSvgSelection: any,
 
