@@ -1,13 +1,13 @@
 # About ngx-date-bar-chart
 
-Since building charts with dates (on a day-intervall) seemed like a lot of hassle, we build our own easy to use and responsive chart that does all the annoying stuff for you.
+Since building charts in angular with dates on the x-axis (on a day interval) was a lot of work, we build our own easy to use and responsive chart that does all the annoying stuff for you.
 
-We also added a really cool feature, where you have access to all parameters of our chart from the outside, which allows you to draw individual stuff with d3 directly on the chart, which was previously really complex and required sometimes hacking the code. For this feature, just scroll down to the custom drawings section at the very end.
+We also added a really cool feature (see 'customDrawing'), where you have access to all parameters of our chart from the outside. This enables you to draw individual stuff with d3 directly on the chart, which was previously really complex and required hacking the code.
 
 ## Demo and code repo
 
 - for a quick demo, check out [stackblitz](https://stackblitz.com/edit/angular-tyzwtg)
-- code: [github](https://github.com/LudwigWermke/ngx-date-bar-chart), including a demo project (the same as on stackblitz):
+- code: [github](https://github.com/LudwigWermke/ngx-date-bar-chart), including a demo project (same as on stackblitz):
 
 ## Chart types
 
@@ -173,7 +173,11 @@ customDrawing: ((
 ) => void
 ```
 
-With this method you can draw on the chart yourself. Having access to the chart-width and height is an awesome possibility to very easily e.g. add a custom trendline. E.g. the following code draws a line from the top left corner, to the top of the bar that is exactly in the middle. This makes no sense, but it demonstrates how easily you can adjust this chart to your own needs:
+With this method you can draw on the chart yourself and access internal variables like `chartWidth` or `xScale` (for more info on scales consult the d3 docs). 
+<br><br>
+Having access to e.g. the chart-width and chart-height enables you to draw a custom trendline. 
+<br><br>
+To illustrate this functionality, the following code draws a line from the top left corner of the chart, to the top of the bar that is exactly in the middle. This makes no sense, but it demonstrates, how simple it is to add your custom stuff.
 
 ```
 customDrawing = (
@@ -228,5 +232,4 @@ boundingSvgSelection
 
 };
 ```
-
-You can pass this function as an input like this without having to mess with the underlying code or cryptically trying to manipulate with d3: `[customDrawing]="customDrawing"`
+All you need to do now, is to pass the function in the html template like this:  `[customDrawing]="customDrawing"` :)
