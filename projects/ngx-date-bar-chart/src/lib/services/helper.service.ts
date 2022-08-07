@@ -7,7 +7,7 @@ import { INgxDateValueSeries } from '../interfaces/date-value-series.interface';
   providedIn: 'root',
 })
 export class HelperService {
-  constructor(private preProcessorService: PreProcessorService) {}
+  constructor(public preProcessorService: PreProcessorService) {}
 
   // region: domains
 
@@ -23,6 +23,10 @@ export class HelperService {
     // some padding left and right
     min.setTime(min.getTime() - 12 * 3600 * 1000);
     max.setTime(max.getTime() + 12 * 3600 * 1000);
+
+    if (min.getTime() >= max.getTime() - 24 * 3600 * 1000) {
+      throw new RangeError('min x-value must be at least one day before max');
+    }
 
     return [min, max];
   }
@@ -79,7 +83,7 @@ export class HelperService {
     manualXMin: Date | undefined
   ): Date {
     if (manualXMin !== undefined) {
-      return new Date(manualXMin);
+      return this.preProcessorService.toStartOfDay(manualXMin);
     }
     return new Date(processedData[0].date);
   }
@@ -89,7 +93,7 @@ export class HelperService {
     manualXMax: Date | undefined
   ): Date {
     if (manualXMax !== undefined) {
-      return new Date(manualXMax);
+      return this.preProcessorService.toStartOfDay(manualXMax);
     }
     return new Date(processedData[processedData.length - 1].date);
   }
@@ -151,7 +155,7 @@ export class HelperService {
 
   // region: small helper functions
 
-  private sumPerDay(entry: INgxDateValueSeries): number {
+  public sumPerDay(entry: INgxDateValueSeries): number {
     let sum = 0;
     for (const value of entry.values) {
       sum += value;
@@ -159,7 +163,7 @@ export class HelperService {
     return sum;
   }
 
-  private assertSomeData(
+  public assertSomeData(
     processedData: INgxDateValue[] | INgxDateValueSeries[]
   ): void {
     if (!processedData?.length) {
@@ -169,7 +173,7 @@ export class HelperService {
     }
   }
 
-  private daysDiff(xDomain: [Date, Date]): number {
+  public daysDiff(xDomain: [Date, Date]): number {
     const start = xDomain[0];
     const end = xDomain[1];
     return (end.getTime() - start.getTime()) / 24 / 3600 / 1000;
