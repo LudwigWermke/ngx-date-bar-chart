@@ -1,8 +1,8 @@
 # About ngx-date-bar-chart
 
-Since building charts with dates on the x-axis (on a day-intervall) is a lot of hassle in angular, we build our own easy to use and responsive chart that does all the annoying stuff for you. <br>
-<br>
-We also added a really cool new feature, where you have access to all parameters of our chart from the outside, which allows you to draw individual stuff with d3 directly on the chart. This is helpful, because this was previously a really complex task and required you to sometimes hack the code. For this feature, just scroll down to the custom drawings section at the very end.
+Since building charts in angular with dates on the x-axis (on a day interval) was a lot of work, we build our own easy to use and responsive chart that does all the annoying stuff for you.
+
+We also added a really cool feature (see 'customDrawing'), where you have access to all parameters of our chart from the outside. This enables you to draw individual stuff with d3 directly on the chart, which was previously really complex and required hacking the code.
 
 ## Demo and code repo
 
@@ -18,7 +18,7 @@ We also added a really cool new feature, where you have access to all parameters
 
 ## Installation
 
-```
+```bash
 npm install ngx-date-bar-chart
 ```
 
@@ -26,7 +26,7 @@ npm install ngx-date-bar-chart
 
 In your module add NgxDateBarChartModule to the imports:
 
-```
+```ts
 @NgModule({
   declarations: [
     AppComponent
@@ -47,23 +47,23 @@ and build the demo :)
 
 1. Set up some data
 
-```
-    const data: INgxDateValue[] = [];
-    const today = new Date();
+```ts
+const data: INgxDateValue[] = [];
+const today = new Date();
 
-    for (let i = 0; i < 15; ++i) {
-      const date = new Date(today);
-      date.setDate(today.getDate() + i);
-      data.push({
-        new Date(date),
-        value: i * i,
-      });
-    }
+for (let i = 0; i < 15; ++i) {
+  const date = new Date(today);
+  date.setDate(today.getDate() + i);
+  data.push({
+    new Date(date),
+    value: i * i,
+  });
+}
 ```
 
 2. Use the chart in you html template and maybe add some nice colors
 
-```
+```html
 <ngx-date-bar-chart
   [colors]="['navy', 'dodgerblue']"
   [data]="data"
@@ -72,23 +72,23 @@ and build the demo :)
 
 3. If you want multiple values per day just change the type of data to 'INgxDateValueSeries[]' and you are good to go:
 
-```
-   const data: INgxDateValueSeries[] = [];
-   const today = new Date();
+```ts
+const data: INgxDateValueSeries[] = [];
+const today = new Date();
 
-    for (let i = 0; i < 15; ++i) {
-      const date = new Date(today);
-      date.setDate(today.getDate() + i);
-      data.push({
-        new Date(date),
-        values: [i, 2*i, 3 * i],
-      });
-    }
+for (let i = 0; i < 15; ++i) {
+  const date = new Date(today);
+  date.setDate(today.getDate() + i);
+  data.push({
+    new Date(date),
+    values: [i, 2*i, 3 * i],
+  });
+}
 ```
 
 4. If you want your data stacked, just set the stacked attribute in the html-template.
 
-```
+```html
 <ngx-date-bar-chart
   [colors]="['navy', 'dodgerblue']"
   [data]="data"
@@ -155,7 +155,7 @@ use this to format the x-axis dates the way you want them
 
 ## custom drawings
 
-```
+```ts
 customDrawing: ((
   boundingSvgSelection: any,
   fullWidth: number,
@@ -175,9 +175,13 @@ customDrawing: ((
 ) => void
 ```
 
-With this method you can draw on the chart yourself. Having access to the chart-width and height is an awesome possibility to very easily e.g. add a custom trendline. E.g. the following code draws a line from the top left corner, to the top of the bar that is exactly in the middle. This makes no sense, but it demonstrates how easily you can adjust this chart to your own needs:
+With this method you can draw on the chart yourself and access internal variables like `chartWidth` or `xScale` (for more info on scales consult the d3 docs).
+<br><br>
+Having access to e.g. the chart-width and chart-height enables you to draw a custom trendline.
+<br><br>
+To illustrate this functionality, the following code draws a line from the top left corner of the chart, to the top of the bar that is exactly in the middle. This makes no sense, but it demonstrates, how simple it is to add your custom stuff.
 
-```
+```ts
 customDrawing = (
 boundingSvgSelection: any,
 
@@ -231,4 +235,4 @@ boundingSvgSelection
 };
 ```
 
-You can pass this function as an input like this without having to mess with the underlying code or cryptically trying to manipulate with d3: `[customDrawing]="customDrawing"`
+All you need to do now, is to pass the function in the html template like this:  `[customDrawing]="customDrawing"` :)
