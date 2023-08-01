@@ -3,9 +3,9 @@
   "description": "A clean, responsive, and easy to use bar chart specialised in dealing with dates on a 'day'-interval.",
   "version": "1.0.5",
   "peerDependencies": {
-    "@angular/common": "14.0.0",
-    "@angular/core": "14.0.0",
-    "d3": "7.4.5"
+    "@angular/common": "16.1.7",
+    "@angular/core": "16.1.7",
+    "d3": "7.8.5"
   },
   "keywords": [
     "chart",
@@ -22,10 +22,10 @@
   },
   "devDependencies": {
     "@types/d3": "7.4.0",
-    "@typescript-eslint/eslint-plugin": "^5.32.0",
-    "@typescript-eslint/parser": "^5.32.0",
+    "@typescript-eslint/eslint-plugin": "^6.2.1",
+    "@typescript-eslint/parser": "^6.2.1",
     "eslint": "^8.21.0",
-    "prettier": "^2.7.1"
+    "prettier": "^3.0.0"
   },
   "homepage": "https://github.com/LudwigWermke/ngx-date-bar-chart"
 }
