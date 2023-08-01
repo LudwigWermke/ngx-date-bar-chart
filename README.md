@@ -153,6 +153,20 @@ use this to format the x-axis dates the way you want them
 
 `fontSizeTicks: string` font size of ticks and axis-descriptions
 
+## custom horizontal line
+### usage
+```html
+[horizontalLine]="{yValue: 20, color: '#40088BFF', widthPx: 2}"
+```
+### attributes
+```text
+yValue: number (required)
+
+color: hexString (required)
+
+widthPx: number (required)
+```
+
 ## custom drawings
 
 ```ts
