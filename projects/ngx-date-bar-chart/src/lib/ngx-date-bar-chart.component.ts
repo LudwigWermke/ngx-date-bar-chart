@@ -1,11 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import {Component, OnInit, Input} from '@angular/core';
 import * as d3 from 'd3';
-import { INgxDateValue } from './interfaces/date-value.interface';
-import { HelperService } from './services/helper.service';
-import { AxisDomain } from 'd3';
-import { PreProcessorService } from './services/pre-processor.service';
-import { INgxDateValueSeries } from './interfaces/date-value-series.interface';
-import { LegendPosition } from './enums/legend-position.enum';
+import {INgxDateValue} from './interfaces/date-value.interface';
+import {HelperService} from './services/helper.service';
+import {AxisDomain} from 'd3';
+import {PreProcessorService} from './services/pre-processor.service';
+import {INgxDateValueSeries} from './interfaces/date-value-series.interface';
+import {LegendPosition} from './enums/legend-position.enum';
 
 @Component({
   selector: 'ngx-date-bar-chart',
@@ -29,23 +29,20 @@ export class NgxDateBarChartComponent implements OnInit {
 
   @Input() customDrawing:
     | ((
-        boundingSvgSelection: any,
-
-        fullWidth: number,
-        fullHeight: number,
-        chartHeight: number,
-        chartWidth: number,
-        barWidth: number,
-        padding: { top: number; left: number; right: number; bottom: number },
-
-        xScale: any,
-        yScale: any,
-
-        dataSingle: INgxDateValue[],
-        dataSeries: INgxDateValueSeries[],
-        xDomain: [Date, Date],
-        yDomain: [number, number]
-      ) => void)
+    boundingSvgSelection: any,
+    fullWidth: number,
+    fullHeight: number,
+    chartHeight: number,
+    chartWidth: number,
+    barWidth: number,
+    padding: { top: number; left: number; right: number; bottom: number },
+    xScale: any,
+    yScale: any,
+    dataSingle: INgxDateValue[],
+    dataSeries: INgxDateValueSeries[],
+    xDomain: [Date, Date],
+    yDomain: [number, number]
+  ) => void)
     | undefined;
 
   @Input() formatDateFunction: ((date: Date) => string) | undefined;
@@ -56,13 +53,13 @@ export class NgxDateBarChartComponent implements OnInit {
   @Input() rounded = true;
   @Input() barRadiusFunction: ((barWidth: number) => number) | undefined;
 
-  @Input() colors: string[] = ['#6bc5c4'];
+  @Input() colors: string[] = ['#fc092c'];
 
   @Input() minSpacePerXTick = 60;
   @Input() legendLabels: string[] = [];
   @Input() legendPosition: LegendPosition = LegendPosition.BOTTOM_LEFT;
-  @Input() xAxisLabel: string | undefined = 'cooles label';
-  @Input() yAxisLabel: string | undefined = 'cooles label';
+  @Input() xAxisLabel: string | undefined = '';
+  @Input() yAxisLabel: string | undefined = '';
 
   @Input() set xAxisHeight(height: number) {
     if (height < 0 || height >= this.fullHeight) {
@@ -109,8 +106,15 @@ export class NgxDateBarChartComponent implements OnInit {
     this.calcDomainsAndResize();
   }
 
+  @Input() set horizontalLine(line: {yValue: number, color: string, widthPx: number}) {
+    this._horizontalLine = line;
+    this.calcDomainsAndResize();
+  }
+
   private manualXMax: Date | undefined;
   private manualXMin: Date | undefined;
+
+  private _horizontalLine: {yValue: number, color: string, widthPx: number} | undefined;
 
   public transformXAxis = '';
   public transformYAxis = '';
@@ -137,7 +141,7 @@ export class NgxDateBarChartComponent implements OnInit {
     Math.random() * 1_000_000
   )}`;
 
-  private padding = { top: 10, left: 70, right: 10, bottom: 60 };
+  private padding = {top: 10, left: 70, right: 10, bottom: 60};
 
   private manualYMax: number | undefined = undefined;
   private manualYMin: number | undefined = undefined;
@@ -145,7 +149,8 @@ export class NgxDateBarChartComponent implements OnInit {
   constructor(
     private helperService: HelperService,
     private preProcessorService: PreProcessorService
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.resize();
@@ -158,6 +163,7 @@ export class NgxDateBarChartComponent implements OnInit {
       this.calculateBarWidth();
       this.initScales();
       this.drawAxis();
+      this.drawHorizontalLine();
       this.drawCustomDrawing();
     });
   }
@@ -188,6 +194,33 @@ export class NgxDateBarChartComponent implements OnInit {
         this.yDomain
       );
     }
+  }
+
+  private drawHorizontalLine(): void {
+    this.selectChart()
+      .selectAll('.horizontal-line') // add class to html
+      .selectAll('line')
+      .remove();
+
+    if (!this._horizontalLine) {
+      return;
+    }
+
+    this.selectChart()
+      .selectAll('.horizontal-line')
+      .append('line')
+      .style('stroke', this._horizontalLine.color)
+      .style('stroke-width', this._horizontalLine.widthPx)
+      .attr('x1', this.padding.left)
+      .attr('y1', this.yScale(this._horizontalLine.yValue) + this.padding.top)
+      .attr(
+        'x2',
+        this.chartWidth + this.padding.left
+      )
+      .attr(
+        'y2',
+        this.yScale(this._horizontalLine.yValue) + this.padding.top
+      );
   }
 
   private calculateTransformations() {
@@ -283,7 +316,7 @@ export class NgxDateBarChartComponent implements OnInit {
       return this.formatDateFunction(date);
     }
 
-    const options: any = { month: '2-digit', day: '2-digit' };
+    const options: any = {month: '2-digit', day: '2-digit'};
     return date.toLocaleDateString('en-US', options);
   }
 

@@ -10,13 +10,13 @@
       <h2>1. Basic Chart</h2>
       <div class="chart-container">
         <ngx-date-bar-chart
-          [colors]="['navy', 'dodgerblue']"
           [data]="basicData"
           [legendLabels]="['this is some data']"
           [xAxisLabel]="'dates'"
           [yAxisLabel]="'values'"
           [yMin]="0"
           [barSpacingPercentage]="0.1"
+          [horizontalLine]="{yValue: 20, color: '#40088BFF', widthPx: 2}"
         ></ngx-date-bar-chart>
       </div>
     </div>
